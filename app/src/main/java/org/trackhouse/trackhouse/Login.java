@@ -3,6 +3,7 @@ package org.trackhouse.trackhouse;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -329,7 +330,7 @@ public class Login extends AppCompatActivity implements LoaderCallbacks<Cursor> 
             }
 
             // TODO: register the new account here.
-            return true;
+            return false; //CHANGED
         }
 
         @Override
@@ -339,6 +340,8 @@ public class Login extends AppCompatActivity implements LoaderCallbacks<Cursor> 
 
             if (success) {
                 finish();
+                Intent myIntent = new Intent(Login.this,Home.class);
+                Login.this.startActivity(myIntent);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
