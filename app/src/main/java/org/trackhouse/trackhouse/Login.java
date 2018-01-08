@@ -29,6 +29,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextClock;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -69,6 +70,17 @@ public class Login extends AppCompatActivity implements LoaderCallbacks<Cursor> 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         getWindow().getDecorView().setBackgroundColor(Color.BLACK);
+
+        final TextView registerView = (TextView) findViewById(R.id.register_here);
+        registerView.setOnClickListener(new View.OnClickListener() {
+                                            public void onClick(View v) {
+                                                Intent signupIntent = new Intent(Login.this, SignUp.class);
+
+                                                Login.this.startActivity(signupIntent);
+                                            }
+                                        });
+
+
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();

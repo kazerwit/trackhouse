@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "492800912855",
+    "firebase_url": "https://trackhouse-63159.firebaseio.com",
+    "project_id": "trackhouse-63159",
+    "storage_bucket": "trackhouse-63159.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:492800912855:android:af87d881999be963",
+        "android_client_info": {
+          "package_name": "org.trackhouse.trackhouse"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "492800912855-ojrqicb7nrk1dijul8sebb2gpa7rreq5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBR93LQ8AJxfH523P94SJWIo2ZKdPmdJxE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
