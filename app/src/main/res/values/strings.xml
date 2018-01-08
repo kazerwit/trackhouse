@@ -8,6 +8,9 @@
     <string name="login">Login</string>
     <string name="log_in">Log In</string>
     <string name="trackhouse">trackhouse</string>
+    <string name="already_registered">Already registered? Click here to login</string>
+    <string name="password_entry">"Enter Password (six character min.)"</string>
+    <string name="to_register">"Not a user? Sign up for a free account here"</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
