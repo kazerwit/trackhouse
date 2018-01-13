@@ -58,7 +58,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp"
-                    android:hint="Password"
+                    android:hint="@string/enter_password"
                     android:imeActionId="6"
                     android:imeActionLabel="@string/action_sign_in_short"
                     android:imeOptions="actionUnspecified"
@@ -74,7 +74,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="LOGIN"
+                android:text="@string/login_button"
                 android:textColor="@android:color/white"
                 android:background="@drawable/my_buttons"
                 android:textStyle="bold" />
@@ -90,7 +90,8 @@
                 android:textColor="@color/colorAccent"
                 android:textAlignment="center"
                 android:onClick="onClick"
-                android:clickable="true" />
+                android:clickable="true"
+                android:focusable="true"/>
 
         </LinearLayout>
     </ScrollView>
