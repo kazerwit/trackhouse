@@ -2,6 +2,7 @@
     <string name="app_name">Trackhouse</string>
     <string name="welcome_message">Create a free account</string>
     <string name="member_login">Sign in</string>
+    <string name="login_button">LOGIN</string>
     <string name="enter_email">Email</string>
     <string name="enter_password">Password</string>
     <string name="title_activity_login">Log In</string>
@@ -11,6 +12,8 @@
     <string name="already_registered">Already registered? Click here to login</string>
     <string name="password_entry">"Enter Password (six character min.)"</string>
     <string name="to_register">"Not a user? Sign up for a free account here"</string>
+    <string name="minimum_password">Password must be at least 6 characters</string>
+    <string name="auth_failed">Login failed, please try again</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
