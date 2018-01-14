@@ -13,7 +13,23 @@
     <string name="password_entry">"Enter Password (six character min.)"</string>
     <string name="to_register">"Not a user? Sign up for a free account here"</string>
     <string name="minimum_password">Password must be at least 6 characters</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="password_instructions">Please enter your email and we will send you password reset instructions.</string>
+    <string name="reset_password">RESET PASSWORD</string>
+    <string name="go_back">GO BACK</string>
     <string name="auth_failed">Login failed, please try again</string>
+
+    <!-- Strings related to profile -->
+    <string name="hint_email">Current email</string>
+    <string name="hint_new_email">New email</string>
+    <string name="new_pass">Enter new password</string>
+    <string name="btn_change">CHANGE EMAIL</string>
+    <string name="btn_changepw">CHANGE PASSWORD</string>
+    <string name="btn_send">SEND PASSWORD RESET EMAIL</string>
+    <string name="btn_remove">DELETE ACCOUNT</string>
+    <string name="change_email">CHANGE EMAIL</string>
+    <string name="btn_sign_out">SIGN OUT</string>
+    <string name="profile">Profile</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -29,7 +45,9 @@
     </string>
     <string name="title_activity_sign_up">Sign Up</string>
     <string name="title_activity_home">Home</string>
+
+    <!-- Strings related to home page -->
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
+    <string name="title_profile">Profile</string>
     <string name="title_notifications">Notifications</string>
 </resources>

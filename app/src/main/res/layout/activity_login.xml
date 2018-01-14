@@ -80,6 +80,19 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/forgot_pw"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="30dp"
+                android:text="@string/forgot_password"
+                android:textColor="@color/colorAccent"
+                android:textAlignment="center"
+                android:onClick="onClick"
+                android:clickable="true" />
+
+            <TextView
                 android:id="@+id/register_here"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -90,8 +103,7 @@
                 android:textColor="@color/colorAccent"
                 android:textAlignment="center"
                 android:onClick="onClick"
-                android:clickable="true"
-                android:focusable="true"/>
+                android:clickable="true" />
 
         </LinearLayout>
     </ScrollView>
