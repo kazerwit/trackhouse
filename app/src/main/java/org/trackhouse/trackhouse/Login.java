@@ -60,6 +60,15 @@ public class Login extends AppCompatActivity {
             }
         });
 
+        final TextView passwordView = (TextView) findViewById(R.id.forgot_pw);
+        passwordView.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent signupIntent2 = new Intent(Login.this, PasswordReset.class);
+
+                Login.this.startActivity(signupIntent2);
+            }
+        });
+
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);

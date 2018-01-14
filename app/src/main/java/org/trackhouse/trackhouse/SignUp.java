@@ -85,8 +85,8 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
                             //for now displays a toast and starts Home activity
                             //TO DO - start profile activity instead of Home
                             Toast.makeText(SignUp.this, "Registration successful", Toast.LENGTH_SHORT).show();
-                            Intent homeIntent = new Intent(SignUp.this, Home.class);
-                            SignUp.this.startActivity(homeIntent);
+                            Intent profileIntent = new Intent(SignUp.this, Profile.class);
+                            SignUp.this.startActivity(profileIntent);
                         } else {
                             FirebaseAuthException e = (FirebaseAuthException )task.getException();
                             Toast.makeText(SignUp.this, "Failed Registration: "+e.getMessage(), Toast.LENGTH_LONG).show();
