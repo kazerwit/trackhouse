@@ -19,17 +19,21 @@
     <string name="go_back">GO BACK</string>
     <string name="auth_failed">Login failed, please try again</string>
 
+
     <!-- Strings related to profile -->
-    <string name="hint_email">Current email</string>
-    <string name="hint_new_email">New email</string>
+    <string name="hint_email">Enter new email</string>
+    <string name="hint_new_email">Enter new email</string>
     <string name="new_pass">Enter new password</string>
-    <string name="btn_change">CHANGE EMAIL</string>
-    <string name="btn_changepw">CHANGE PASSWORD</string>
-    <string name="btn_send">SEND PASSWORD RESET EMAIL</string>
+    <string name="btn_change">CHANGE</string>
+    <string name="btn_send">SEND</string>
     <string name="btn_remove">DELETE ACCOUNT</string>
     <string name="change_email">CHANGE EMAIL</string>
+    <string name="change_password">CHANGE PASSWORD</string>
+    <string name="send_password_reset_email">SEND PASSWORD RESET EMAIL</string>
+    <string name="remove_user">DELETE ACCOUNT</string>
     <string name="btn_sign_out">SIGN OUT</string>
     <string name="profile">Profile</string>
+
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
