@@ -50,8 +50,11 @@
     <string name="title_activity_sign_up">Sign Up</string>
     <string name="title_activity_home">Home</string>
 
-    <!-- Strings related to home page -->
+    <!-- Strings related to Home page -->
     <string name="title_home">Home</string>
     <string name="title_profile">Profile</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_listen">Listen</string>
+    <string name="title_following">Following</string>
+    <string name="title_favorites">Favorites</string>
+    <string name="title_activity_google_maps">Map</string>
 </resources>
