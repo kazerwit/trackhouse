@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,19 +26,18 @@ public class Profile extends AppCompatActivity {
     private ProgressBar progressBar;
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
+    private static final String TAG = "ProfileActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         getWindow().getDecorView().setBackgroundColor(Color.BLACK);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(getString(R.string.profile));
-        setSupportActionBar(toolbar);
+        Log.v(TAG, "onCreate successful");
 
         //get firebase auth instance
         auth = FirebaseAuth.getInstance();
+        Log.v(TAG, "Firebase successful");
 
         //get current user
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

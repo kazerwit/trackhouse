@@ -3,20 +3,31 @@ package org.trackhouse.trackhouse;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import com.google.firebase.auth.FirebaseAuth;
 
 
 public class Welcome extends AppCompatActivity {
+
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
         getWindow().getDecorView().setBackgroundColor(Color.BLACK);
+
+        //Get Firebase auth instance
+        auth = FirebaseAuth.getInstance();
+
+        //If user is already logged in they are taken to the Home activity
+        if (auth.getCurrentUser() != null) {
+            startActivity(new Intent(Welcome.this, Home.class));
+            finish();
+        }
 
         final Button b2 = (Button) findViewById(R.id.button2);
         b2.setOnClickListener(new View.OnClickListener() {
