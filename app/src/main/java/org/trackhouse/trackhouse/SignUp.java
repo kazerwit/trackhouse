@@ -20,15 +20,21 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class SignUp extends AppCompatActivity implements View.OnClickListener {
 
     private Button registerButton;
     private EditText emailSignup;
+    private EditText usernameSignup;
     private EditText passwordSignup;
+    private EditText passwordSignupReenter;
     private TextView signIn;
     private ProgressDialog progressDialog;
     private FirebaseAuth firebaseAuth;
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +45,14 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         setSupportActionBar(toolbar);
         getWindow().getDecorView().setBackgroundColor(Color.BLACK);
 
+
         firebaseAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(this);
         registerButton = (Button) findViewById(R.id.register_button);
         emailSignup = (EditText) findViewById(R.id.email_signup);
         passwordSignup = (EditText) findViewById(R.id.password_signup);
+        passwordSignupReenter = (EditText) findViewById(R.id.password_reenter);
         signIn = (TextView) findViewById(R.id.already_registered);
-
         registerButton.setOnClickListener(this);
         emailSignup.setOnClickListener(this);
         passwordSignup.setOnClickListener(this);
@@ -54,6 +61,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
     private void registerUser(){
         String email = emailSignup.getText().toString().trim();
         String password = passwordSignup.getText().toString().trim();
+        String password2 = passwordSignupReenter.getText().toString().trim();
 
         if(TextUtils.isEmpty(email)){
             //email is empty
@@ -71,6 +79,16 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
             return;
         }
 
+        if(password.equals(password2)) {
+            //passwords match
+        } else {
+            Toast.makeText(this,"Passwords do not match, please try again", Toast.LENGTH_SHORT).show();
+
+            //stops function from executing
+            return;
+        }
+
+
         //if validations are OK
         //we will first show a progress bar
         progressDialog.setMessage("Registering User...");
@@ -83,10 +101,10 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
                         if (task.isSuccessful()) {
                             //user is successfully registered
                             //for now displays a toast and starts Home activity
-                            //TO DO - start profile activity instead of Home
                             Toast.makeText(SignUp.this, "Registration successful", Toast.LENGTH_SHORT).show();
-                            Intent profileIntent = new Intent(SignUp.this, Home.class);
-                            SignUp.this.startActivity(profileIntent);
+                            Intent homeIntent = new Intent(SignUp.this, Home.class);
+                            SignUp.this.startActivity(homeIntent);
+
                         } else {
                             FirebaseAuthException e = (FirebaseAuthException )task.getException();
                             Toast.makeText(SignUp.this, "Failed Registration: "+e.getMessage(), Toast.LENGTH_LONG).show();
@@ -95,6 +113,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
                     }
                 });
     }
+
 
     @Override
     public void onClick(View view) {

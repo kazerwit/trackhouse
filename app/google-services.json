@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "492800912855-oi6ios8lo78epg3s3cd1kpu2i42lo26t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.trackhouse.trackhouse",
+            "certificate_hash": "227e38954225207db68bb366f263b40605df3e4a"
+          }
+        },
+        {
           "client_id": "492800912855-ojrqicb7nrk1dijul8sebb2gpa7rreq5.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "492800912855-ojrqicb7nrk1dijul8sebb2gpa7rreq5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
