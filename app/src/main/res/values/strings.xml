@@ -11,7 +11,7 @@
     <string name="prompt_email">Email</string>
 
 
-    <!-- Strings related to SignUp -->
+    <!-- Strings related to SignUp page-->
     <string name="already_registered">Already registered? Click here to login</string>
     <string name="password_entry">"Enter password (six character min.)"</string>
     <string name="reenter_password">Re-enter password</string>
@@ -19,11 +19,12 @@
     <string name="title_activity_sign_up">Sign Up</string>
     <string name="member_login">Sign in</string>
     <string name="register">REGISTER</string>
-    <string name="username_entry">Create username</string>
+
+    <!-- Strings related to Profile page-->
+    <string name="prompt_username">Create username</string>
 
 
-
-    <!-- Strings related to Profile -->
+    <!-- Strings related to Settings page -->
     <string name="hint_email">Enter new email</string>
     <string name="hint_new_email">Enter new email</string>
     <string name="new_pass">Enter new password</string>
@@ -36,9 +37,10 @@
     <string name="remove_user">DELETE ACCOUNT</string>
     <string name="btn_sign_out">SIGN OUT</string>
     <string name="profile">Profile</string>
+    <string name="title_settings">Settings</string>
 
 
-    <!-- Strings related to Login -->
+    <!-- Strings related to Login page-->
     <string name="prompt_password">Password (optional)</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
@@ -66,4 +68,5 @@
     <string name="title_favorites">Favorites</string>
     <string name="title_activity_google_maps">Map</string>
     <string name="title_activity_home">Home</string>
+
 </resources>
