@@ -44,6 +44,9 @@
             android:label="@string/title_activity_home" />
         <activity android:name=".PasswordReset" />
         <activity
+            android:name=".Settings"
+            android:label="@string/title_settings" />
+        <activity
             android:name=".Profile"
             android:label="@string/title_profile" />
         <activity
@@ -69,7 +72,7 @@
 
         <activity
             android:name=".GoogleMaps"
-            android:label="@string/title_activity_google_maps"></activity>
+            android:label="@string/title_activity_google_maps" />
     </application>
 
 </manifest>
