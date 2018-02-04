@@ -21,6 +21,8 @@ import org.w3c.dom.Text;
 
 public class Profile extends AppCompatActivity implements View.OnClickListener {
 
+    //only to test git commit, remove later
+
     //firebase auth object
     private FirebaseAuth firebaseAuth;
 
