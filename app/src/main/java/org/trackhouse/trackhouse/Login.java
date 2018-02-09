@@ -108,7 +108,7 @@ public class Login extends AppCompatActivity {
                                         Toast.makeText(Login.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                                     }
                                 } else {
-                                    Intent intent = new Intent(Login.this, Settings.class);
+                                    Intent intent = new Intent(Login.this, Home.class);
                                     startActivity(intent);
                                     finish();
                                 }
