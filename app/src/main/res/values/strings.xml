@@ -21,7 +21,9 @@
     <string name="register">REGISTER</string>
 
     <!-- Strings related to Profile page-->
-    <string name="prompt_username">Create username</string>
+    <string name="prompt_username">Create or update your public username</string>
+    <string name="button_save">SAVE</string>
+    <string name="button_skip">Skip this step for now, take me Home</string>
 
 
     <!-- Strings related to Settings page -->

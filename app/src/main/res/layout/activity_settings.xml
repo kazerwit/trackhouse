@@ -131,6 +131,17 @@
             android:textStyle="bold" />
 
         <Button
+            android:id="@+id/profile"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="PROFILE"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:background="@drawable/my_grey_buttons"/>
+
+        <Button
             android:id="@+id/change_email_button"
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"

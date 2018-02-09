@@ -22,7 +22,7 @@ import java.util.Set;
 public class Settings extends AppCompatActivity {
 
     private Button btnChangeEmail, btnChangePassword, btnSendResetEmail, btnRemoveUser,
-            changeEmail, changePassword, sendEmail, remove, signOut;
+            changeEmail, changePassword, sendEmail, remove, signOut, profile;
 
     private EditText oldEmail, newEmail, password, newPassword;
     private ProgressBar progressBar;
@@ -60,6 +60,7 @@ public class Settings extends AppCompatActivity {
         btnChangeEmail = (Button) findViewById(R.id.change_email_button);
         btnChangePassword = (Button) findViewById(R.id.change_password_button);
         btnRemoveUser = (Button) findViewById(R.id.remove_user_button);
+        profile = (Button) findViewById(R.id.profile);
         changeEmail = (Button) findViewById(R.id.changeEmail);
         changePassword = (Button) findViewById(R.id.changePass);
         sendEmail = (Button) findViewById(R.id.send);
@@ -85,6 +86,16 @@ public class Settings extends AppCompatActivity {
         if (progressBar != null) {
             progressBar.setVisibility(View.GONE);
         }
+
+        profile.setOnClickListener(new View.OnClickListener(){
+            public void onClick (View v){
+            // Perform action on click
+            Intent profileIntent = new Intent(Settings.this, Profile.class);
+
+            // currentContext.startActivity(activityChangeIntent);
+
+            Settings.this.startActivity(profileIntent);}
+        });
 
         btnChangeEmail.setOnClickListener(new View.OnClickListener() {
             @Override
