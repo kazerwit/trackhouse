@@ -20,10 +20,10 @@ public class Welcome extends AppCompatActivity {
         setContentView(R.layout.activity_welcome);
         getWindow().getDecorView().setBackgroundColor(Color.BLACK);
 
-        //Get Firebase auth instance
+        //get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
-        //If user is already logged in they are taken to the Home activity
+        //if user is already logged in they are taken to the Home activity
         if (auth.getCurrentUser() != null) {
             startActivity(new Intent(Welcome.this, Home.class));
             finish();

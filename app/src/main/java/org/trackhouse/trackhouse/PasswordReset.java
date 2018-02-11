@@ -27,13 +27,16 @@ public class PasswordReset extends AppCompatActivity {
         setContentView(R.layout.activity_password_reset);
         getWindow().getDecorView().setBackgroundColor(Color.BLACK);
 
+        //create views
         inputEmail = (EditText) findViewById(R.id.email);
         btnReset = (Button) findViewById(R.id.btn_reset_password);
         btnBack = (Button) findViewById(R.id.btn_back);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
+        //get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
+        //takes user back if "Back" is selected
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,6 +44,7 @@ public class PasswordReset extends AppCompatActivity {
             }
         });
 
+        //sets listener for "Reset" button to prompt user to enter their email
         btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
