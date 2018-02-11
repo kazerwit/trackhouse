@@ -26,7 +26,7 @@ public class Home extends AppCompatActivity {
     private static final String TAG = "HomeActivity";
     private TextView greeting;
 
-    // Firebase auth object
+    //Firebase auth object
     private FirebaseAuth firebaseAuth;
     private DatabaseReference databaseReference;
 
@@ -38,20 +38,20 @@ public class Home extends AppCompatActivity {
         getWindow().getDecorView().setBackgroundColor(Color.BLACK);
         Log.d(TAG, "onCreate Successful");
 
-        //Setup bottom navigation
+        //setup bottom navigation
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         TextView greeting = (TextView) findViewById(R.id.display_username);
 
-        // Get firebase auth instance
+        //get Firebase auth instance and create user variable based on logged in user
         firebaseAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference();
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
 
-        // Display logged in user email
+        //display logged in user email
         greeting.setText("Welcome, " + user.getEmail());
 
-        //Switch to handle bottom navigation
+        //handles bottom navigation selection
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

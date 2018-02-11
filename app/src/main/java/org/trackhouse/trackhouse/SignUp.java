@@ -14,7 +14,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -27,10 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class SignUp extends AppCompatActivity implements View.OnClickListener {
 
     private Button registerButton;
-    private EditText emailSignup;
-    private EditText usernameSignup;
-    private EditText passwordSignup;
-    private EditText passwordSignupReenter;
+    private EditText emailSignup, usernameSignup, passwordSignup, passwordSignupReenter;
     private TextView signIn;
     private ProgressDialog progressDialog;
     private FirebaseAuth firebaseAuth;
@@ -46,7 +42,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         getWindow().getDecorView().setBackgroundColor(Color.BLACK);
 
 
-        firebaseAuth = FirebaseAuth.getInstance();
+        //create views and set OnClickListeners
         progressDialog = new ProgressDialog(this);
         registerButton = (Button) findViewById(R.id.register_button);
         emailSignup = (EditText) findViewById(R.id.email_signup);
@@ -56,13 +52,20 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         registerButton.setOnClickListener(this);
         emailSignup.setOnClickListener(this);
         passwordSignup.setOnClickListener(this);
+
+        firebaseAuth = FirebaseAuth.getInstance();
     }
 
+    /**
+     * Registers a new user with email and password in Firebase. Validates inputs and displays
+     * errors as needed via toasts. Shows progress bar when validations are OK.
+     */
     private void registerUser(){
         String email = emailSignup.getText().toString().trim();
         String password = passwordSignup.getText().toString().trim();
         String password2 = passwordSignupReenter.getText().toString().trim();
 
+        //validate all fields
         if(TextUtils.isEmpty(email)){
             //email is empty
             Toast.makeText(this, "Please enter email", Toast.LENGTH_SHORT).show();
@@ -89,18 +92,21 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         }
 
 
-        //if validations are OK
-        //we will first show a progress bar
+        //if validations are OK we will first show a progress bar
         progressDialog.setMessage("Registering User...");
         progressDialog.show();
 
+        /**
+         * Calls Firebase method to create new user in db with email and password
+         * @param email
+         * @param password
+         */
         firebaseAuth.createUserWithEmailAndPassword(email,password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            //user is successfully registered
-                            //for now displays a toast and starts Home activity
+                            // User is successfully registered. Displays toast message and starts Profile activity
                             Toast.makeText(SignUp.this, "Registration successful", Toast.LENGTH_SHORT).show();
                             Intent profileIntent = new Intent(SignUp.this, Profile.class);
                             SignUp.this.startActivity(profileIntent);
@@ -114,7 +120,11 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
                 });
     }
 
-
+    /**
+     * Calls method registerUser() if "Register" button is clicked
+     * Starts Login activity if "Login" is selected
+     * @param view
+     */
     @Override
     public void onClick(View view) {
         if(view == registerButton){

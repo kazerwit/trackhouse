@@ -37,13 +37,14 @@ public class Settings extends AppCompatActivity {
         getWindow().getDecorView().setBackgroundColor(Color.BLACK);
         Log.v(TAG, "onCreate successful");
 
-        //get firebase auth instance
+        //get Firebase auth instance
         auth = FirebaseAuth.getInstance();
         Log.v(TAG, "Firebase successful");
 
         //get current user
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+        //prompts user to log in if they have been logged out
         authListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -57,6 +58,7 @@ public class Settings extends AppCompatActivity {
             }
         };
 
+        //create buttons and views
         btnChangeEmail = (Button) findViewById(R.id.change_email_button);
         btnChangePassword = (Button) findViewById(R.id.change_password_button);
         btnRemoveUser = (Button) findViewById(R.id.remove_user_button);
@@ -66,12 +68,12 @@ public class Settings extends AppCompatActivity {
         sendEmail = (Button) findViewById(R.id.send);
         remove = (Button) findViewById(R.id.remove);
         signOut = (Button) findViewById(R.id.sign_out);
-
         oldEmail = (EditText) findViewById(R.id.old_email);
         newEmail = (EditText) findViewById(R.id.new_email);
         password = (EditText) findViewById(R.id.password);
         newPassword = (EditText) findViewById(R.id.newPassword);
 
+        //hides fields until they are needed
         oldEmail.setVisibility(View.GONE);
         newEmail.setVisibility(View.GONE);
         password.setVisibility(View.GONE);
@@ -89,14 +91,13 @@ public class Settings extends AppCompatActivity {
 
         profile.setOnClickListener(new View.OnClickListener(){
             public void onClick (View v){
-            // Perform action on click
+            //takes user to Profile activity
             Intent profileIntent = new Intent(Settings.this, Profile.class);
-
-            // currentContext.startActivity(activityChangeIntent);
 
             Settings.this.startActivity(profileIntent);}
         });
 
+        //shows change email settings when "Change Email" clicked
         btnChangeEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,6 +111,7 @@ public class Settings extends AppCompatActivity {
             }
         });
 
+        //user enters new email, displays message
         changeEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,6 +138,7 @@ public class Settings extends AppCompatActivity {
             }
         });
 
+        //shows fields for user to change password
         btnChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -149,6 +152,7 @@ public class Settings extends AppCompatActivity {
             }
         });
 
+        //user enters new password, displays message
         changePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -181,6 +185,7 @@ public class Settings extends AppCompatActivity {
         });
 
 
+        //deletes user account and displays message
         btnRemoveUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

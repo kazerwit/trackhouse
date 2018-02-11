@@ -1,7 +1,7 @@
 package org.trackhouse.trackhouse;
 
 /**
- * Created by lordis on 1/29/2018.
+ * UserInformation class to be used with Firebase read/write
  */
 
 public class UserInformation {
@@ -23,6 +23,11 @@ public class UserInformation {
     }
 
 
+    /**
+     * Defined UserInformation method
+     * @param username
+     * @param email
+     */
     public UserInformation(String username, String email){
         this.username = username;
         this.email = email;

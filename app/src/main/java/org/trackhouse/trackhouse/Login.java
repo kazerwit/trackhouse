@@ -35,14 +35,16 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         getWindow().getDecorView().setBackgroundColor(Color.BLACK);
 
-        //Get Firebase auth instance
+        //get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
+        //if user is logged in, start Home activity
         if (auth.getCurrentUser() != null) {
             startActivity(new Intent(Login.this, Home.class));
             finish();
         }
 
+        //if user selects "Register" text, starts SignUp activity
         final TextView registerView = (TextView) findViewById(R.id.register_here);
         registerView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -52,6 +54,7 @@ public class Login extends AppCompatActivity {
             }
         });
 
+        //if user selects "Forgot Password", starts PasswordReset activity
         final TextView passwordView = (TextView) findViewById(R.id.forgot_pw);
         passwordView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -62,18 +65,18 @@ public class Login extends AppCompatActivity {
         });
 
 
-        // Set up the login form.
+        //set up views
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setTextColor(Color.parseColor("#9c27b0"));
-
         mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
-        //Get Firebase auth instance
+        //get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
+        //sets listener for "Login" button and validates that fields are completed
         mEmailSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,7 +94,7 @@ public class Login extends AppCompatActivity {
                 }
                 mProgressView.setVisibility(View.VISIBLE);
 
-                //authenticate user
+                //authenticate user with Firebase
                 auth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
                             @Override
