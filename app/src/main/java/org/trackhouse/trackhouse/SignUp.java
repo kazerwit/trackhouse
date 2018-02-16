@@ -36,9 +36,6 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitleTextColor(getResources().getColor(R.color.primaryTextColor));
-        setSupportActionBar(toolbar);
         getWindow().getDecorView().setBackgroundColor(Color.BLACK);
 
 

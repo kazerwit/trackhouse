@@ -59,10 +59,10 @@
             android:inputType="textPassword"
             android:maxLines="1"
             android:singleLine="true"
-            android:textColor="@android:color/white"
-            android:textColorHint="@color/colorAccent"
-            android:popupBackground="@color/colorAccent"
-            android:backgroundTint="@color/colorAccent"/>
+            android:textColor="@color/primaryTextColorGrey"
+            android:textColorHint="@color/primaryTextColorGrey"
+            android:popupBackground="@color/primaryTextColorGrey"
+            android:backgroundTint="@color/primaryTextColorGrey"/>
 
         <EditText
             android:id="@+id/newPassword"
@@ -76,9 +76,9 @@
             android:maxLines="1"
             android:singleLine="true"
             android:textColor="@android:color/white"
-            android:textColorHint="@color/colorAccent"
-            android:popupBackground="@color/colorAccent"
-            android:backgroundTint="@color/colorAccent" />
+            android:textColorHint="@color/primaryTextColorGrey"
+            android:popupBackground="@color/primaryTextColorGrey"
+            android:backgroundTint="@color/primaryTextColorGrey" />
 
         <Button
             android:id="@+id/changeEmail"
@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/btn_change"
-            android:textColor="@android:color/white"
+            android:textColor="@color/primaryTextColor"
             android:background="@drawable/my_buttons"
             android:textStyle="bold" />
 
@@ -99,7 +99,7 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/my_buttons"
             android:text="@string/btn_change"
-            android:textColor="@android:color/white"
+            android:textColor="@color/primaryTextColor"
             android:textStyle="bold" />
 
         <Button
@@ -110,7 +110,7 @@
             android:layout_marginTop="16dp"
             android:background="@color/colorPrimaryDark"
             android:text="@string/btn_send"
-            android:textColor="@android:color/white"
+            android:textColor="@color/primaryTextColor"
             android:textStyle="bold" />
 
         <ProgressBar
@@ -182,7 +182,7 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/my_buttons"
             android:text="@string/btn_sign_out"
-            android:textColor="@android:color/white"
+            android:textColor="@color/primaryTextColor"
             android:textStyle="bold" />
 
     </LinearLayout>

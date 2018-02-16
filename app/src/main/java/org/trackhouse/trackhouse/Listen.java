@@ -2,28 +2,36 @@ package org.trackhouse.trackhouse;
 
 import android.graphics.Color;
 import android.provider.ContactsContract;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.BaseAdapter;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.support.v7.widget.Toolbar;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
-//TODO: Search view is white and doesn't show with black background, fix this
-//TODO: and set up search view capability
-public class Listen extends AppCompatActivity {
+
+//TODO: Search view does not currently work - set up methods below. See the menu layout search_menu_items
+
+public class Listen extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
     private RecyclerView userRecycleView;
     private DatabaseReference databaseReference;
-    private SearchView searchView;
     private static final String TAG = "Listen Activity";
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +40,9 @@ public class Listen extends AppCompatActivity {
         getWindow().getDecorView().setBackgroundColor(Color.BLACK);
         Log.d(TAG, "onCreate successful");
 
+        toolbar = (Toolbar) findViewById(R.id.toolbar_search);
+        setSupportActionBar(toolbar);
+
         //create firebase database reference and keep synced
         databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
         databaseReference.keepSynced(true);
@@ -39,7 +50,6 @@ public class Listen extends AppCompatActivity {
 
         //set up recyclerview
         userRecycleView = (RecyclerView) findViewById(R.id.user_list_recycle);
-        searchView = (SearchView) findViewById(R.id.search_view);
         userRecycleView.setHasFixedSize(true);
         userRecycleView.setLayoutManager(new LinearLayoutManager(this));
         Log.d(TAG, "recycle view setup successful");
@@ -73,6 +83,26 @@ public class Listen extends AppCompatActivity {
         Log.d(TAG, "set adapter successful");
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuItem menuItem = menu.findItem(R.id.action_search);
+        getMenuInflater().inflate(R.menu.search_menu_items, menu);
+        return true;
+    }
+
+    //TODO: Set up method below, doesn't currently work
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    //TODO: Set up method below, doesn't currently work
+    @Override
+    public boolean onQueryTextChange(String newText) {
+
+        return false;
+    }
+
     /**
      * Creates static class for view holder
      */
@@ -102,4 +132,5 @@ public class Listen extends AppCompatActivity {
         }
 
     }
+
 }
