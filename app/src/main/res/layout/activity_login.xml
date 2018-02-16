@@ -28,7 +28,8 @@
             android:id="@+id/email_login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginTop="32dp">
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -38,14 +39,14 @@
                     android:id="@+id/email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
-                    android:inputType="textEmailAddress"
+                    android:layout_margin="16dp"
                     android:hint="@string/prompt_email"
+                    android:inputType="textEmailAddress"
                     android:maxLines="1"
+                    android:popupBackground="@color/primaryTextColorGrey"
                     android:singleLine="true"
-                    android:textColor="@android:color/white"
-                    android:textColorHint="@color/colorAccent"
-                    android:popupBackground="@color/colorAccent"/>
+                    android:textColor="@color/primaryTextColorGrey"
+                    android:textColorHint="@color/primaryTextColorGrey" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -65,20 +66,22 @@
                     android:inputType="textPassword"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="@android:color/white"/>
+                    android:textColor="@color/primaryTextColorGrey"
+                    android:textColorHint="@color/primaryTextColorGrey"/>
 
             </android.support.design.widget.TextInputLayout>
 
             <Button
                 android:id="@+id/email_sign_in_button"
                 style="?android:textAppearanceSmall"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:text="@string/login_button"
-                android:textColor="@android:color/white"
+                android:textColor="@color/primaryTextColor"
                 android:background="@drawable/my_buttons"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_gravity="center"/>
 
             <TextView
                 android:id="@+id/forgot_pw"
@@ -88,7 +91,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="30dp"
                 android:text="@string/forgot_password"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/primaryTextColorGrey"
                 android:textAlignment="center"
                 android:onClick="onClick"
                 android:clickable="true" />
@@ -101,7 +104,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="30dp"
                 android:text="@string/to_register"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/primaryTextColorGrey"
                 android:textAlignment="center"
                 android:onClick="onClick"
                 android:clickable="true" />

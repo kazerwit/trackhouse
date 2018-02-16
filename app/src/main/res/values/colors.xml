@@ -4,6 +4,8 @@
 
     <color name="primaryLightColor">#484848</color>
 
+    <color name="primaryTextColorGrey">#d9d2d2</color>
+
     <color name="colorPrimaryDark">#000000</color>
 
     <color name="colorAccent">#9c27b0</color>

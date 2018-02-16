@@ -37,12 +37,13 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SignUp"
-            android:label="@string/title_activity_sign_up"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Home"
             android:label="@string/title_activity_home" />
-        <activity android:name=".PasswordReset" />
+        <activity
+            android:name=".PasswordReset"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".Settings"
             android:label="@string/title_settings" />
@@ -51,7 +52,8 @@
             android:label="@string/title_profile" />
         <activity
             android:name=".Listen"
-            android:label="Listen" />
+            android:label="Search Users"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".Following"
             android:label="Following" />

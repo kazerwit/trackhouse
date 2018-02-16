@@ -6,15 +6,9 @@
     android:layout_height="match_parent"
     tools:context="org.trackhouse.trackhouse.Listen">
 
+    <include
+        layout="@layout/toolbar_layout"></include>
 
-    <SearchView
-        android:id="@+id/search_view"
-        android:layout_width="293sp"
-        android:layout_height="25sp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <RelativeLayout
         android:id="@+id/user_list_layout"
@@ -24,7 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_view">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_search">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/user_list_recycle"
