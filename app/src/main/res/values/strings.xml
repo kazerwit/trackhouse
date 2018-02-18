@@ -69,5 +69,11 @@
     <string name="title_favorites">Favorites</string>
     <string name="title_activity_google_maps">Map</string>
     <string name="title_activity_home">Home</string>
+    <string name="latitude_label">Latitude</string>
+    <string name="longitude_label">Longitude</string>
+    <string name="no_location_detected">No Location Detected</string>
+    <string name="permission_denied_explanation">Permission was denied, but is needed for core
+        functionality.</string>
+    <string name="settings">Settings</string>
 
 </resources>
