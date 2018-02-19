@@ -8,6 +8,24 @@ public class UserInformation {
 
     public String username;
     public String email;
+    public Double latitude;
+    public Double longitude;
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
 
     //default constructor required for calls to DataSnapshot.getValue(User.class)
     public UserInformation() {
@@ -28,8 +46,10 @@ public class UserInformation {
      * @param username
      * @param email
      */
-    public UserInformation(String username, String email){
+    public UserInformation(String username, String email, Double latitude, Double longitude){
         this.username = username;
         this.email = email;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 }

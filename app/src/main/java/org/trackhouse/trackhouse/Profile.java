@@ -68,20 +68,22 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
 
 
     /**
-     * Creates user in Firebase "users" table
+     * Creates user in Firebase "users" table. For now, when a user saves or updates their username
+     * here, the location is reset to 0 long/0 lat. Redirects user to Home activity directly
+     * after this action so that location can be saved again.
      * @param userId
      * @param username
      * @param email
      */
-    private void saveUserInformation(String userId, String username, String email){
-        UserInformation userInformation = new UserInformation(username, email);
+    private void saveUserInformation(String userId, String username, String email, Double latitude, Double longitude){
+        UserInformation userInformation = new UserInformation(username, email, latitude, longitude);
 
         databaseReference.child("users").child(userId).setValue(userInformation);
 
         Toast.makeText(this,"Username created", Toast.LENGTH_SHORT).show();
 
-        //reloads activity once username is saved
-        startActivity(new Intent(this,Profile.class));
+        //loads Home activity once username is updated
+        startActivity(new Intent(this,Home.class));
     }
 
     @Override
@@ -94,10 +96,12 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
         String userId = user.getUid();
         String username = enterUsername.getText().toString().trim();
         String email = user.getEmail();
+        Double latitude = 0.0;
+        Double longitude = 0.0;
 
         //if "Save" button clicked
         if(view == buttonSave){
-            saveUserInformation(userId, username, email);
+            saveUserInformation(userId, username, email, latitude, longitude);
         }
 
         if(view == buttonSkip) {
