@@ -16,6 +16,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Set;
 
@@ -28,6 +30,7 @@ public class Settings extends AppCompatActivity {
     private ProgressBar progressBar;
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
+    private DatabaseReference databaseReference;
     private static final String TAG = "ProfileActivity";
 
     @Override
@@ -43,6 +46,8 @@ public class Settings extends AppCompatActivity {
 
         //get current user
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+
 
         //prompts user to log in if they have been logged out
         authListener = new FirebaseAuth.AuthStateListener() {
@@ -122,11 +127,16 @@ public class Settings extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        Toast.makeText(Settings.this, "Email address is updated. Please sign in with new email id!", Toast.LENGTH_LONG).show();
-                                        signOut();
-                                        progressBar.setVisibility(View.GONE);
+                                        //assign variables for firebase update
+                                        FirebaseUser user = auth.getCurrentUser();
+                                        String userId = user.getUid();
+                                        String email = newEmail.getText().toString().trim();
+
+                                        //calls method to save new email to firebase database
+                                        updateUserInformation(userId, email);
+
                                     } else {
-                                        Toast.makeText(Settings.this, "Failed to update email!", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(Settings.this, "Failed to update email. Please log in again to update credentials", Toast.LENGTH_LONG).show();
                                         progressBar.setVisibility(View.GONE);
                                     }
                                 }
@@ -137,6 +147,7 @@ public class Settings extends AppCompatActivity {
                 }
             }
         });
+
 
         //shows fields for user to change password
         btnChangePassword.setOnClickListener(new View.OnClickListener() {
@@ -219,23 +230,51 @@ public class Settings extends AppCompatActivity {
 
     }
 
-    //sign out method
+    /**
+     * Saves new user email to Firebase under the child "userId"
+     * @param userId
+     * @param userId
+     * @param email
+     */
+    private void updateUserInformation(String userId, String email){
+
+        databaseReference.child("users").child(userId).child("email").setValue(email);
+
+        Log.d(TAG, "New email saved to database");
+        Toast.makeText(Settings.this, "Email address is updated. Please sign in with new email id!", Toast.LENGTH_LONG).show();
+        signOut();
+        progressBar.setVisibility(View.GONE);
+
+    }
+
+    /**
+     * Signs user out of Firebase auth
+     */
     public void signOut() {
         auth.signOut();
     }
 
+    /**
+     * Sets onResume settings
+     */
     @Override
     protected void onResume() {
         super.onResume();
         progressBar.setVisibility(View.GONE);
     }
 
+    /**
+     * Adds auth listener upon start
+     */
     @Override
     public void onStart() {
         super.onStart();
         auth.addAuthStateListener(authListener);
     }
 
+    /**
+     * Removes auth listener upon stop
+     */
     @Override
     public void onStop() {
         super.onStop();

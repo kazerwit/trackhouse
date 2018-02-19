@@ -2,6 +2,7 @@ package org.trackhouse.trackhouse;
 
 import android.*;
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -18,7 +19,6 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -29,12 +29,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResolvableApiException;
-import com.google.android.gms.location.FusedLocationProviderApi;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationAvailability;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
@@ -56,6 +51,9 @@ import java.util.Locale;
 
 
 public class Home extends AppCompatActivity {
+
+    //TODO: Add location updates, save instance state, add onResume
+    //TODO: method to start location updates
 
     private static final String TAG = "HomeActivity";
     private TextView greeting, locationText, latitudeText, longitudeText;
@@ -104,7 +102,7 @@ public class Home extends AppCompatActivity {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         //display logged in user email
-        greeting.setText("Welcome, " + user.getEmail());
+        greeting.setText(user.getEmail());
 
         //handles bottom navigation selection
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -149,11 +147,13 @@ public class Home extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-
+        //TODO: Add code so that this only checks for Marshmallow release and up?
         if (!checkPermissions()) {
             requestPermissions();
+            Log.d(TAG, "Requested permission if none given");
         } else {
             getLastLocation();
+            Log.d(TAG, "Called getLastLocation");
         }
     }
 
@@ -162,7 +162,6 @@ public class Home extends AppCompatActivity {
      * applications that do not require a fine-grained location and that do not need location
      * updates. Gets the best and most recent location currently available, which may be null
      * in rare cases when a location is not available.
-     * <p>
      * Note: this method should be called after location permission has been granted.
      */
     @SuppressWarnings("MissingPermission")
@@ -172,6 +171,8 @@ public class Home extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Location> task) {
                         if (task.isSuccessful() && task.getResult() != null) {
+                            FirebaseUser user = firebaseAuth.getCurrentUser();
+                            String userId = user.getUid();
                             mLastLocation = task.getResult();
 
                             latitudeText.setText(String.format(Locale.ENGLISH, "%s: %f",
@@ -180,21 +181,43 @@ public class Home extends AppCompatActivity {
                             longitudeText.setText(String.format(Locale.ENGLISH, "%s: %f",
                                     mLongitudeLabel,
                                     mLastLocation.getLongitude()));
+                            Log.d(TAG, "Location values saved");
+                            Double latitude = mLastLocation.getLatitude();
+                            Double longitude = mLastLocation.getLongitude();
+                            updateUserInformation(userId, latitude, longitude);
                         } else {
                             Log.w(TAG, "getLastLocation:exception", task.getException());
+                            Log.d(TAG, "No location was detected");
                             Toast.makeText(getApplicationContext(), "No Location Detected", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
     }
 
+    /**
+     * Saves user location to firebase. This updates the latitude and longitude in the db
+     * @param userId
+     * @param latitude
+     * @param longitude
+     */
+    private void updateUserInformation(String userId, Double latitude, Double longitude){
+
+        databaseReference.child("users").child(userId).child("latitude").setValue(latitude);
+        databaseReference.child("users").child(userId).child("longitude").setValue(longitude);
+
+        Toast.makeText(this,"Location updated", Toast.LENGTH_SHORT).show();
+
+    }
+
 
     /**
      * Return the current state of the permissions needed.
+     * @return permissionState
      */
     private boolean checkPermissions() {
         int permissionState = ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION);
+        Log.d(TAG, "Permission state returned as " + permissionState);
         return permissionState == PackageManager.PERMISSION_GRANTED;
     }
 
@@ -202,28 +225,30 @@ public class Home extends AppCompatActivity {
         ActivityCompat.requestPermissions(Home.this,
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                 REQUEST_PERMISSIONS_REQUEST_CODE);
+        Log.d(TAG, "Permission request started");
     }
 
     private void requestPermissions() {
         boolean shouldProvideRationale =
                 ActivityCompat.shouldShowRequestPermissionRationale(this,
                         Manifest.permission.ACCESS_FINE_LOCATION);
+        Log.d(TAG, "request permission with provider rationale");
 
-        // Provide an additional rationale to the user. This would happen if the user denied the
-        // request previously, but didn't check the "Don't ask again" checkbox.
+        // Provide an additional rationale to the user.
         if (shouldProvideRationale) {
-            Log.i(TAG, "Displaying permission rationale to provide additional context.");
+            Log.d(TAG, "Displaying permission rationale to provide additional context.");
 
             Toast.makeText(getApplicationContext(), "Location permission is needed for core functionality",
                     Toast.LENGTH_LONG).show();
                     startLocationPermissionRequest();
 
         } else {
-            Log.i(TAG, "Requesting permission");
+            Log.d(TAG, "Requesting permission");
             // Request permission. It's possible this can be auto answered if device policy
             // sets the permission in a given state or the user denied the permission
             // previously and checked "Never ask again".
             startLocationPermissionRequest();
+            Log.d(TAG, "Started location permission request");
         }
     }
 
@@ -238,16 +263,17 @@ public class Home extends AppCompatActivity {
             if (grantResults.length <= 0) {
                 // If user interaction was interrupted, the permission request is cancelled and you
                 // receive empty arrays.
-                Log.i(TAG, "User interaction was cancelled.");
+                Log.d(TAG, "User interaction was cancelled for permission request code");
             } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission granted.
+                Log.d(TAG,"getLastLocation called");
                 getLastLocation();
             } else {
+                Log.d(TAG, "Permission was denied");
                 // Permission denied.
 
-                // Notify the user via a SnackBar that they have rejected a core permission for the
-                // app, which makes the Activity useless. In a real app, core permissions would
-                // typically be best requested during a welcome-screen flow.
+                // Notify the user via a Toast that they have rejected a core permission for the
+                // app, which makes the Activity useless.
 
                 // Additionally, it is important to remember that a permission might have been
                 // rejected without asking the user for permission (device policy or "Never ask

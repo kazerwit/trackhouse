@@ -73,6 +73,8 @@ public class Login extends AppCompatActivity {
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
+        mPasswordView.setTextColor(Color.parseColor("#d9d2d2"));
+
         //get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
