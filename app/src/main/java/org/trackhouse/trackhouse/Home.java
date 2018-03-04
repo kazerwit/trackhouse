@@ -52,8 +52,7 @@ import java.util.Locale;
 
 public class Home extends AppCompatActivity {
 
-    //TODO: Add location updates, save instance state, add onResume
-    //TODO: method to start location updates
+    //TODO: Remove location services from activity
 
     private static final String TAG = "HomeActivity";
     private TextView greeting, locationText, latitudeText, longitudeText;
@@ -112,7 +111,7 @@ public class Home extends AppCompatActivity {
 
                     case R.id.navigation_home:
                         // User selects "Home" item
-                        Intent intent = new Intent(Home.this, Home.class);
+                        Intent intent = new Intent(Home.this, Reddit.class);
                         startActivity(intent);
                         break;
 
