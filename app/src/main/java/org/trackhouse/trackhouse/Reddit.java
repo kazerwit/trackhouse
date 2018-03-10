@@ -6,6 +6,9 @@ import android.util.Log;
 import android.widget.Toast;
 
 import org.trackhouse.trackhouse.model.Feed;
+import org.trackhouse.trackhouse.model.entry.Entry;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -52,6 +55,34 @@ public class Reddit extends AppCompatActivity {
                 Log.d(TAG, "onResponse: Server Response: " + response.toString());
 
                 Toast.makeText(Reddit.this, "Server response " + response.toString(), Toast.LENGTH_SHORT).show();
+
+                List<Entry> entries = response.body().getEntries();
+
+                Log.d(TAG, "onResponse: entries: " + response.body().getEntries());
+
+                //Log.d(TAG, "onResponse: author: " + entries.get(1).getAuthor().getName());
+
+                //Log.d(TAG, "onResponse: updated: " + entries.get(1).getUpdated());
+
+                //Log.d(TAG, "onResponse: title: " + entries.get(1).getTitle());
+
+                for(int i = 0; i < entries.size(); i++) {
+                    ExtractXML extractXML1 = new ExtractXML("<a href=", entries.get(1).getContent());
+                    List<String> postContent = extractXML1.start();
+
+                    ExtractXML extractXML2 = new ExtractXML("<img src=", entries.get(1).getContent());
+
+                    try {
+                        postContent.add(extractXML2.start().get(0));
+                    } catch (NullPointerException e){
+                        //TODO: add default image for posts without an image
+                        postContent.add(null);
+                        Log.e(TAG, "onResponse: NullPointerException(thumbnail)" + e.getMessage());
+                    } catch (IndexOutOfBoundsException e){
+                        postContent.add(null);
+                        Log.e(TAG, "onResponse: IndexOutOfBoundsException(thumbnail)" + e.getMessage());
+                    }
+                }
 
             }
 

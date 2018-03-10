@@ -1,7 +1,7 @@
 package org.trackhouse.trackhouse;
 
 /**
- * Recycler View Class
+ * Recycler View Class for database usernames
  */
 
 public class UserListView {
