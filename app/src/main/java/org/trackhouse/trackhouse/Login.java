@@ -33,7 +33,6 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        getWindow().getDecorView().setBackgroundColor(Color.BLACK);
 
         //get Firebase auth instance
         auth = FirebaseAuth.getInstance();

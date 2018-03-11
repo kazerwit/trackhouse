@@ -18,7 +18,7 @@ public class Welcome extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-        getWindow().getDecorView().setBackgroundColor(Color.BLACK);
+        getWindow().getDecorView().setBackgroundColor(Color.parseColor("#dfdbda"));
 
         //get Firebase auth instance
         auth = FirebaseAuth.getInstance();

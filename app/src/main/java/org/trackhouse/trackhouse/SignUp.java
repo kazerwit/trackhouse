@@ -36,7 +36,6 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-        getWindow().getDecorView().setBackgroundColor(Color.BLACK);
 
 
         //create views and set OnClickListeners

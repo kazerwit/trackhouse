@@ -3,11 +3,13 @@ package org.trackhouse.trackhouse;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import org.trackhouse.trackhouse.model.Feed;
 import org.trackhouse.trackhouse.model.entry.Entry;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -21,7 +23,7 @@ import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 public class Reddit extends AppCompatActivity {
 
-    private static final String TAG = "RedditActivity";
+    private static final String TAG = "RedditEntries";
 
     private static final String BASE_URL = "https://www.reddit.com/r/";
 
@@ -66,11 +68,15 @@ public class Reddit extends AppCompatActivity {
 
                 //Log.d(TAG, "onResponse: title: " + entries.get(1).getTitle());
 
+
+                //List to hold card view details for posts to display in recycler view
+                ArrayList<Post> posts = new ArrayList<Post>();
+
                 for(int i = 0; i < entries.size(); i++) {
-                    ExtractXML extractXML1 = new ExtractXML("<a href=", entries.get(1).getContent());
+                    ExtractXML extractXML1 = new ExtractXML("<a href=", entries.get(i).getContent());
                     List<String> postContent = extractXML1.start();
 
-                    ExtractXML extractXML2 = new ExtractXML("<img src=", entries.get(1).getContent());
+                    ExtractXML extractXML2 = new ExtractXML("<img src=", entries.get(i).getContent());
 
                     try {
                         postContent.add(extractXML2.start().get(0));
@@ -82,7 +88,31 @@ public class Reddit extends AppCompatActivity {
                         postContent.add(null);
                         Log.e(TAG, "onResponse: IndexOutOfBoundsException(thumbnail)" + e.getMessage());
                     }
+                    int lastPosition = postContent.size() - 1;
+                    posts.add(new Post(
+                            entries.get(i).getTitle(),
+                            entries.get(i).getAuthor().getName(),
+                            entries.get(i).getUpdated(),
+                            postContent.get(0),
+                            postContent.get(lastPosition)
+
+                    ));
                 }
+
+                //test to print out post details in log for card view
+                //TODO: delete this test later
+                for(int j = 0; j < posts.size(); j++){
+
+                    Log.d(TAG, "onResponse: \n " +
+                        "PostURL: " + posts.get(j).getPostURL() + "\n" +
+                            "ThumbnailURL: " + posts.get(j).getThumbnailURL() + "\n" +
+                            "Title: " + posts.get(j).getTitle() + "\n" +
+                            "Author: " + posts.get(j).getAuthor() + "\n" +
+                            "Updated: " + posts.get(j).getDate_updated() + "\n");
+                }
+                ListView listView = (ListView) findViewById(R.id.listView);
+                CustomListAdapter customListAdapter = new CustomListAdapter(Reddit.this, R.layout.card_layout_posts, posts);
+                listView.setAdapter(customListAdapter);
 
             }
 

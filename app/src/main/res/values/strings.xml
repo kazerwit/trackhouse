@@ -1,7 +1,7 @@
 <resources>
     <!-- Global strings -->
     <string name="app_name">Trackhouse</string>
-    <string name="welcome_message">Create a free account</string>
+    <string name="welcome_message">Create an account</string>
     <string name="enter_email">Email</string>
     <string name="enter_password">Password</string>
     <string name="trackhouse">trackhouse</string>

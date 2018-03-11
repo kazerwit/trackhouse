@@ -37,7 +37,6 @@ public class Listen extends AppCompatActivity implements SearchView.OnQueryTextL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listen);
-        getWindow().getDecorView().setBackgroundColor(Color.BLACK);
         Log.d(TAG, "onCreate successful");
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_search);
