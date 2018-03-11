@@ -35,7 +35,6 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        getWindow().getDecorView().setBackgroundColor(Color.BLACK);
 
         //get firebase auth instance
         firebaseAuth = FirebaseAuth.getInstance();
@@ -75,8 +74,8 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
      * @param username
      * @param email
      */
-    private void saveUserInformation(String userId, String username, String email, Double latitude, Double longitude){
-        UserInformation userInformation = new UserInformation(username, email, latitude, longitude);
+    private void saveUserInformation(String userId, String username, String email){
+        UserInformation userInformation = new UserInformation(username, email);
 
         databaseReference.child("users").child(userId).setValue(userInformation);
 
@@ -96,12 +95,10 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
         String userId = user.getUid();
         String username = enterUsername.getText().toString().trim();
         String email = user.getEmail();
-        Double latitude = 0.0;
-        Double longitude = 0.0;
 
         //if "Save" button clicked
         if(view == buttonSave){
-            saveUserInformation(userId, username, email, latitude, longitude);
+            saveUserInformation(userId, username, email);
         }
 
         if(view == buttonSkip) {

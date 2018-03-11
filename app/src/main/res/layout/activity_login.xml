@@ -40,12 +40,12 @@
                     android:hint="@string/prompt_email"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
-                    android:popupBackground="@color/primaryTextColorGrey"
+                    android:popupBackground="@color/primaryTextColor"
                     android:singleLine="true"
-                    android:textColor="@color/primaryTextColorGrey"
-                    android:textColorHint="@color/primaryTextColorGrey"
-                    android:textColorLink="@color/primaryTextColorGrey"
-                    android:textColorHighlight="@color/primaryTextColorGrey"/>
+                    android:textColor="@color/primaryTextColor"
+                    android:textColorHint="@color/secondaryTextColor"
+                    android:textColorLink="@color/secondaryTextColor"
+                    android:textColorHighlight="@color/secondaryTextColor"/>
 
 
                 <EditText
@@ -60,9 +60,8 @@
                     android:inputType="textPassword"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="@color/primaryTextColorGrey"
-                    android:textColorHint="@color/primaryTextColorGrey"
-                    android:textColorLink="@color/primaryTextColorGrey"/>
+                    android:textColor="@color/primaryTextColor"
+                    android:textColorHint="@color/secondaryTextColor"/>
 
 
             <Button
@@ -85,7 +84,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="30dp"
                 android:text="@string/forgot_password"
-                android:textColor="@color/primaryTextColorGrey"
+                android:textColor="@color/primaryTextColor"
                 android:textAlignment="center"
                 android:clickable="true" />
 
@@ -95,9 +94,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="42dp"
                 android:text="@string/to_register"
-                android:textColor="@color/primaryTextColorGrey"
+                android:textColor="@color/primaryTextColor"
                 android:textAlignment="center"
                 android:clickable="true" />
 

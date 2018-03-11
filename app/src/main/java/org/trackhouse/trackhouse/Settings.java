@@ -37,7 +37,6 @@ public class Settings extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        getWindow().getDecorView().setBackgroundColor(Color.BLACK);
         Log.v(TAG, "onCreate successful");
 
         //get Firebase auth instance
