@@ -1,9 +1,11 @@
 package org.trackhouse.trackhouse;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -46,6 +48,7 @@ public class Home extends AppCompatActivity {
 
         init();
 
+        //TODO: There is a null pointer exception to catch here if getText.toString is null. Add logic to catch
         btnRefreshFeed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,10 +58,17 @@ public class Home extends AppCompatActivity {
                     init();
                 } else {
                     init();
+                    //defaultView();  //doesn't currently work
                 }
             }
         });
     }
+
+    //TODO: This doesn't work yet. Should get Reddit Front Page if no subreddit is entered in search.
+    //TODO: Currently the app crashes if "Refresh" is hit without a subreddit in the search. Add all of the
+    //TODO: code from the init() method here within defaultView method, but the feed call will call static defaultFeed instead.
+    // private void defaultView()
+
 
     //uses Retrofit to get feeds based on the subreddit text entry on Home page
     private void init(){
@@ -70,6 +80,8 @@ public class Home extends AppCompatActivity {
 
         FeedAPI feedAPI = retrofit.create(FeedAPI.class);
 
+        //TODO: Add code for if current feed != "", we proceed here. Else, we get the static url reddit.com (Front Page).
+        //TODO: Look at Feed API class to add static url.
         Call<Feed> call = feedAPI.getFeed(currentFeed);
 
         call.enqueue(new Callback<Feed>() {
@@ -101,7 +113,7 @@ public class Home extends AppCompatActivity {
 
 
                 //List to hold card view details for posts to display in recycler view
-                ArrayList<Post> posts = new ArrayList<Post>();
+                final ArrayList<Post> posts = new ArrayList<Post>();
 
                 for(int i = 0; i < entries.size(); i++) {
                     ExtractXML extractXML1 = new ExtractXML("<a href=", entries.get(i).getContent());
@@ -161,6 +173,20 @@ public class Home extends AppCompatActivity {
                 ListView listView = (ListView) findViewById(R.id.listView);
                 CustomListAdapter customListAdapter = new CustomListAdapter(Home.this, R.layout.card_layout_posts, posts);
                 listView.setAdapter(customListAdapter);
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Log.d(TAG, "onItemClick: Clicked: " + posts.get(position).toString());
+                        Intent intent = new Intent(Home.this, Comments.class);
+                        intent.putExtra("@string/post_url", posts.get(position).getPostURL());
+                        intent.putExtra("@string/post_thumbnail", posts.get(position).getThumbnailURL());
+                        intent.putExtra("@string/post_title", posts.get(position).getTitle());
+                        intent.putExtra("@string/post_author", posts.get(position).getAuthor());
+                        intent.putExtra("@string/post_updated", posts.get(position).getDate_updated());
+                        startActivity(intent);
+                    }
+                });
 
             }
 
