@@ -39,9 +39,6 @@
             android:name=".SignUp"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Home"
-            android:label="@string/title_activity_home" />
-        <activity
             android:name=".PasswordReset"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -51,17 +48,13 @@
             android:name=".Profile"
             android:label="@string/title_profile" />
         <activity
-            android:name=".Listen"
-            android:label="Search Users"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".Following"
             android:label="Following" />
         <activity
             android:name=".Favorites"
             android:label="Favorites" />
         <activity
-            android:name=".Reddit"
+            android:name=".Home"
             android:label="Reddit" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
