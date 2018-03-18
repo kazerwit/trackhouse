@@ -13,8 +13,8 @@
             android:layout_height="wrap_content">
             
             <ImageView
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
@@ -23,8 +23,8 @@
 
             <Button
                 android:id="@+id/btnReply"
-                android:layout_width="50dp"
-                android:layout_height="30dp"
+                android:layout_width="75dp"
+                android:layout_height="45dp"
                 android:textAlignment="center"
                 android:text="@string/comment_reply"
                 android:textSize="8sp"
@@ -55,7 +55,7 @@
                     android:text="@string/author"
                     android:gravity="center"
                     android:layout_below="@id/postTitle"
-                    android:textSize="10sp"/>
+                    android:textSize="14sp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -65,7 +65,7 @@
                     android:text="@string/last_updated"
                     android:gravity="center"
                     android:layout_below="@id/postAuthor"
-                    android:textSize="10sp"/>
+                    android:textSize="14sp"/>
 
             </RelativeLayout>
 
