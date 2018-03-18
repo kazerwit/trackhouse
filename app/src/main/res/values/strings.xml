@@ -5,10 +5,15 @@
     <string name="enter_email">Email</string>
     <string name="enter_password">Password</string>
     <string name="trackhouse">trackhouse</string>
-    <string name="password_instructions">Please enter your email and we will send you password reset instructions.</string>
+
+    <!-- Strings related to Forgot Password page -->
+    <string name="password_instructions">Enter your email and we will send you password reset instructions.</string>
     <string name="reset_password">RESET PASSWORD</string>
     <string name="go_back">GO BACK</string>
     <string name="prompt_email">Email</string>
+
+    <!-- Strings related to Favorites page-->
+    <string name="title_favorites">Favorites</string>
 
 
     <!-- Strings related to SignUp page-->
@@ -24,6 +29,7 @@
     <string name="prompt_username">Create or update your public username</string>
     <string name="button_save">SAVE</string>
     <string name="button_skip">I HAVE A USERNAME, TAKE ME HOME</string>
+    <string name="title_profile">Profile</string>
 
 
     <!-- Strings related to Settings page -->
@@ -62,18 +68,10 @@
 
 
     <!-- Strings related to Home page -->
+    <string name="loading_comments">Loading Comments . . ."</string>
+    <string name="last_updated">Last Updated"</string>
+    <string name="author">Author"</string>
+    <string name="comment_reply">Reply"</string>
     <string name="title_home">Home</string>
-    <string name="title_profile">Profile</string>
-    <string name="title_listen">Listen</string>
-    <string name="title_following">Following</string>
-    <string name="title_favorites">Favorites</string>
-    <string name="title_activity_google_maps">Map</string>
-    <string name="title_activity_home">Home</string>
-    <string name="latitude_label">Latitude</string>
-    <string name="longitude_label">Longitude</string>
-    <string name="no_location_detected">No Location Detected</string>
-    <string name="permission_denied_explanation">Permission was denied, but is needed for core
-        functionality.</string>
-    <string name="settings">Settings</string>
 
 </resources>

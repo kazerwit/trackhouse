@@ -1,41 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="org.trackhouse.trackhouse.Home">
 
-
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/navigation"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="0dp"
-        android:layout_marginStart="0dp"
-        android:background="?android:attr/windowBackground"
-        app:itemBackground="@color/colorPrimary"
-        app:itemTextColor="@color/primaryTextColorGrey"
-        app:itemIconTint="@color/primaryTextColorGrey"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/navigation" />
-
-    <TextView
-        android:id="@+id/display_username"
+    <LinearLayout
+        android:id="@+id/linLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:textColor="@color/primaryTextColor"
-        android:textSize="16sp"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:orientation="horizontal"
+        android:weightSum="100">
+        
+        <EditText
+            android:id="@+id/feedName"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="65"
+            android:textSize="15sp"
+            android:hint="Type a subreddit"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="8dp"/>
 
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="30"
+            android:text="REFRESH"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:id="@+id/btnRefresh" />
 
+    </LinearLayout>
 
-</android.support.constraint.ConstraintLayout>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/listView"
+        android:layout_below="@id/linLayout">
+    </ListView>
+
+</RelativeLayout>

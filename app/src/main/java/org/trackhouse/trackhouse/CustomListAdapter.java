@@ -121,7 +121,7 @@ public class CustomListAdapter  extends ArrayAdapter<Post> {
             //create the imageloader object
             ImageLoader imageLoader = ImageLoader.getInstance();
 
-            int defaultImage = mContext.getResources().getIdentifier("@drawable/image_failed",null,mContext.getPackageName());
+            int defaultImage = mContext.getResources().getIdentifier("@drawable/reddit_alien",null,mContext.getPackageName());
 
             //create display options
             DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true)
