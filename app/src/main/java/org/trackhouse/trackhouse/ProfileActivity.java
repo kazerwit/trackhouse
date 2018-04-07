@@ -1,14 +1,11 @@
 package org.trackhouse.trackhouse;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
@@ -16,9 +13,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import org.w3c.dom.Text;
+/**
+ * User can view the details of their profile.
+ */
 
-public class Profile extends AppCompatActivity implements View.OnClickListener {
+public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
 
     // Firebase auth object
@@ -39,11 +38,11 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
         //get firebase auth instance
         firebaseAuth = FirebaseAuth.getInstance();
 
-        //if user is not logged in, return user to Login activity
+        //if user is not logged in, return user to LoginActivity activity
         if (firebaseAuth.getCurrentUser() == null) {
             //close this activity
             finish();
-            startActivity(new Intent(this, Login.class));
+            startActivity(new Intent(this, LoginActivity.class));
         }
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -58,7 +57,7 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
         //display logged in user email
-        displayUsername.setText("Welcome, " + user.getEmail());
+        displayUsername.setText("WelcomeActivity, " + user.getEmail());
 
         //add listeners to buttons
         buttonSave.setOnClickListener(this);
@@ -68,7 +67,7 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
 
     /**
      * Creates user in Firebase "users" table. For now, when a user saves or updates their username
-     * here, the location is reset to 0 long/0 lat. Redirects user to Home activity directly
+     * here, the location is reset to 0 long/0 lat. Redirects user to HomeActivity activity directly
      * after this action so that location can be saved again.
      * @param userId
      * @param username
@@ -81,8 +80,8 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
 
         Toast.makeText(this,"Username created", Toast.LENGTH_SHORT).show();
 
-        //loads Home activity once username is updated
-        startActivity(new Intent(this,Home.class));
+        //loads HomeActivity activity once username is updated
+        startActivity(new Intent(this,HomeActivity.class));
     }
 
     @Override
@@ -102,7 +101,7 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
         }
 
         if(view == buttonSkip) {
-            startActivity(new Intent(this, Home.class));
+            startActivity(new Intent(this, HomeActivity.class));
 
         }
     }

@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 /**
  * A login screen that offers login via email/password.
  */
-public class Login extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
@@ -37,29 +37,29 @@ public class Login extends AppCompatActivity {
         //get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
-        //if user is logged in, start Home activity
+        //if user is logged in, start HomeActivity activity
         if (auth.getCurrentUser() != null) {
-            startActivity(new Intent(Login.this, Home.class));
+            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
             finish();
         }
 
-        //if user selects "Register" text, starts SignUp activity
+        //if user selects "Register" text, starts SignUpActivity activity
         final TextView registerView = (TextView) findViewById(R.id.register_here);
         registerView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent signupIntent = new Intent(Login.this, SignUp.class);
+                Intent signupIntent = new Intent(LoginActivity.this, SignUpActivity.class);
 
-                Login.this.startActivity(signupIntent);
+                LoginActivity.this.startActivity(signupIntent);
             }
         });
 
-        //if user selects "Forgot Password", starts PasswordReset activity
+        //if user selects "Forgot Password", starts PasswordResetActivity activity
         final TextView passwordView = (TextView) findViewById(R.id.forgot_pw);
         passwordView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent signupIntent2 = new Intent(Login.this, PasswordReset.class);
+                Intent signupIntent2 = new Intent(LoginActivity.this, PasswordResetActivity.class);
 
-                Login.this.startActivity(signupIntent2);
+                LoginActivity.this.startActivity(signupIntent2);
             }
         });
 
@@ -77,7 +77,7 @@ public class Login extends AppCompatActivity {
         //get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
-        //sets listener for "Login" button and validates that fields are completed
+        //sets listener for "LoginActivity" button and validates that fields are completed
         mEmailSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,7 +97,7 @@ public class Login extends AppCompatActivity {
 
                 //authenticate user with Firebase
                 auth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
+                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 // If sign in fails, display a message to the user. If sign in succeeds
@@ -109,10 +109,10 @@ public class Login extends AppCompatActivity {
                                     if (password.length() < 6) {
                                         mPasswordView.setError(getString(R.string.minimum_password));
                                     } else {
-                                        Toast.makeText(Login.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
+                                        Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                                     }
                                 } else {
-                                    Intent intent = new Intent(Login.this, Home.class);
+                                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                                     startActivity(intent);
                                     finish();
                                 }

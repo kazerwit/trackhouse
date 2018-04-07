@@ -51,6 +51,7 @@ dependencies {
     //Retrofit
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-simplexml:2.3.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
 
     //Universal Image Loader
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'

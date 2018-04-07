@@ -1,11 +1,9 @@
 package org.trackhouse.trackhouse;
 
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -19,9 +17,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.Set;
+/**
+ * User can view their current account settings.
+ */
 
-public class Settings extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity {
 
     private Button btnChangeEmail, btnChangePassword, btnSendResetEmail, btnRemoveUser,
             changeEmail, changePassword, sendEmail, remove, signOut, profile;
@@ -56,7 +56,7 @@ public class Settings extends AppCompatActivity {
                 if (user == null) {
                     // user auth state is changed - user is null
                     // launch login activity
-                    startActivity(new Intent(Settings.this, Login.class));
+                    startActivity(new Intent(SettingsActivity.this, LoginActivity.class));
                     finish();
                 }
             }
@@ -95,10 +95,10 @@ public class Settings extends AppCompatActivity {
 
         profile.setOnClickListener(new View.OnClickListener(){
             public void onClick (View v){
-            //takes user to Profile activity
-            Intent profileIntent = new Intent(Settings.this, Profile.class);
+            //takes user to ProfileActivity activity
+            Intent profileIntent = new Intent(SettingsActivity.this, ProfileActivity.class);
 
-            Settings.this.startActivity(profileIntent);}
+            SettingsActivity.this.startActivity(profileIntent);}
         });
 
         //shows change email settings when "Change Email" clicked
@@ -135,7 +135,7 @@ public class Settings extends AppCompatActivity {
                                         updateUserInformation(userId, email);
 
                                     } else {
-                                        Toast.makeText(Settings.this, "Failed to update email. Please log in again to update credentials", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(SettingsActivity.this, "Failed to update email. Please log in again to update credentials", Toast.LENGTH_LONG).show();
                                         progressBar.setVisibility(View.GONE);
                                     }
                                 }
@@ -177,11 +177,11 @@ public class Settings extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (task.isSuccessful()) {
-                                            Toast.makeText(Settings.this, "Password is updated, sign in with new password!", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(SettingsActivity.this, "Password is updated, sign in with new password!", Toast.LENGTH_SHORT).show();
                                             signOut();
                                             progressBar.setVisibility(View.GONE);
                                         } else {
-                                            Toast.makeText(Settings.this, "Failed to update password!", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(SettingsActivity.this, "Failed to update password!", Toast.LENGTH_SHORT).show();
                                             progressBar.setVisibility(View.GONE);
                                         }
                                     }
@@ -206,12 +206,12 @@ public class Settings extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        Toast.makeText(Settings.this, "Your profile is deleted:( Create a account now!", Toast.LENGTH_LONG).show();
-                                        startActivity(new Intent(Settings.this, SignUp.class));
+                                        Toast.makeText(SettingsActivity.this, "Your profile is deleted:( Create a account now!", Toast.LENGTH_LONG).show();
+                                        startActivity(new Intent(SettingsActivity.this, SignUpActivity.class));
                                         finish();
                                         progressBar.setVisibility(View.GONE);
                                     } else {
-                                        Toast.makeText(Settings.this, "Failed to delete your account!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(SettingsActivity.this, "Failed to delete your account!", Toast.LENGTH_SHORT).show();
                                         progressBar.setVisibility(View.GONE);
                                     }
                                 }
@@ -240,7 +240,7 @@ public class Settings extends AppCompatActivity {
         databaseReference.child("users").child(userId).child("email").setValue(email);
 
         Log.d(TAG, "New email saved to database");
-        Toast.makeText(Settings.this, "Email address is updated. Please sign in with new email id!", Toast.LENGTH_LONG).show();
+        Toast.makeText(SettingsActivity.this, "Email address is updated. Please sign in with new email id!", Toast.LENGTH_LONG).show();
         signOut();
         progressBar.setVisibility(View.GONE);
 

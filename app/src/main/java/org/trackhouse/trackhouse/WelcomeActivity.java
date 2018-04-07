@@ -1,7 +1,6 @@
 package org.trackhouse.trackhouse;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,8 +8,11 @@ import android.view.View;
 import android.widget.Button;
 import com.google.firebase.auth.FirebaseAuth;
 
+/**
+ * Welcome screen for users who are not already signed in. Displays options to register or sign in.
+ */
 
-public class Welcome extends AppCompatActivity {
+public class WelcomeActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
 
@@ -23,9 +25,9 @@ public class Welcome extends AppCompatActivity {
         //get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
-        //if user is already logged in they are taken to the Home activity
+        //if user is already logged in they are taken to the HomeActivity activity
         if (auth.getCurrentUser() != null) {
-            startActivity(new Intent(Welcome.this, Home.class));
+            startActivity(new Intent(WelcomeActivity.this, HomeActivity.class));
             finish();
         }
 
@@ -33,11 +35,11 @@ public class Welcome extends AppCompatActivity {
         b2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform action on click
-                Intent activityChangeIntent = new Intent(Welcome.this, Login.class);
+                Intent activityChangeIntent = new Intent(WelcomeActivity.this, LoginActivity.class);
 
                 // currentContext.startActivity(activityChangeIntent);
 
-                Welcome.this.startActivity(activityChangeIntent);
+                WelcomeActivity.this.startActivity(activityChangeIntent);
             }
         });
 
@@ -45,11 +47,11 @@ public class Welcome extends AppCompatActivity {
         b1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform action on click
-                Intent activityChangeIntent2 = new Intent(Welcome.this, SignUp.class);
+                Intent activityChangeIntent2 = new Intent(WelcomeActivity.this, SignUpActivity.class);
 
                 // currentContext.startActivity(activityChangeIntent2);
 
-                Welcome.this.startActivity(activityChangeIntent2);
+                WelcomeActivity.this.startActivity(activityChangeIntent2);
             }
         });
     }

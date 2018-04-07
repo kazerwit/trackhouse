@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Class for Home Feeds using RSS feed tags
+ * Class for HomeActivity Feeds using RSS feed tags
  */
 
 @Root(name = "feed", strict = false)

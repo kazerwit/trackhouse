@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import org.trackhouse.trackhouse.Comments.CommentsActivity;
 import org.trackhouse.trackhouse.model.Feed;
 import org.trackhouse.trackhouse.model.entry.Entry;
 
@@ -23,14 +24,16 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
-//TODO: Currently pulls from a static subreddit to get information on entries (posts). Change later
-//to be able to pull dynamic URLS.
+/**
+ * Activity class which displays a Home page, showing a search bar that accepts a subreddit
+ * name and then displays the subreddit's posts in a clickable recycler view.
+ */
 
-public class Home extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
 
-    private static final String TAG = "RedditEntries";
+    URLS urls = new URLS();
 
-    private static final String BASE_URL = "https://www.reddit.com/r/";
+    private static final String TAG = "HomeActivity";
 
     private Button btnRefreshFeed;
     private EditText mFeedName;
@@ -70,11 +73,11 @@ public class Home extends AppCompatActivity {
     // private void defaultView()
 
 
-    //uses Retrofit to get feeds based on the subreddit text entry on Home page
+    //uses Retrofit to get feeds based on the subreddit text entry on HomeActivity page
     private void init(){
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(urls.BASE_URL)
                 .addConverterFactory(SimpleXmlConverterFactory.create())
                 .build();
 
@@ -94,16 +97,16 @@ public class Home extends AppCompatActivity {
              */
             @Override
             public void onResponse(Call<Feed> call, Response<Feed> response) {
-                Log.d(TAG, "onResponse: feed: " + response.body().toString());
+                //Log.d(TAG, "onResponse: feed: " + response.body().toString());
 
                 //shows server response code. If OK will show 200
                 Log.d(TAG, "onResponse: Server Response: " + response.toString());
 
-                Toast.makeText(Home.this, "Server response " + response.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(HomeActivity.this, "Server response " + response.toString(), Toast.LENGTH_SHORT).show();
 
                 List<Entry> entries = response.body().getEntries();
 
-                Log.d(TAG, "onResponse: entries: " + response.body().getEntries());
+                //Log.d(TAG, "onResponse: entries: " + response.body().getEntries());
 
                 //Log.d(TAG, "onResponse: author: " + entries.get(1).getAuthor().getName());
 
@@ -161,24 +164,24 @@ public class Home extends AppCompatActivity {
 
                 //test to print out post details in log for card view
                 //TODO: delete this test later
-                for(int j = 0; j < posts.size(); j++){
+                //for(int j = 0; j < posts.size(); j++){
 
-                    Log.d(TAG, "onResponse: \n " +
-                            "PostURL: " + posts.get(j).getPostURL() + "\n" +
-                            "ThumbnailURL: " + posts.get(j).getThumbnailURL() + "\n" +
-                            "Title: " + posts.get(j).getTitle() + "\n" +
-                            "Author: " + posts.get(j).getAuthor() + "\n" +
-                            "Updated: " + posts.get(j).getDate_updated() + "\n");
-                }
+                    //Log.d(TAG, "onResponse: \n " +
+                            //"PostURL: " + posts.get(j).getPostURL() + "\n" +
+                            //"ThumbnailURL: " + posts.get(j).getThumbnailURL() + "\n" +
+                            //"Title: " + posts.get(j).getTitle() + "\n" +
+                            //"Author: " + posts.get(j).getAuthor() + "\n" +
+                            //"Updated: " + posts.get(j).getDate_updated() + "\n");
+                //}
                 ListView listView = (ListView) findViewById(R.id.listView);
-                CustomListAdapter customListAdapter = new CustomListAdapter(Home.this, R.layout.card_layout_posts, posts);
+                CustomListAdapter customListAdapter = new CustomListAdapter(HomeActivity.this, R.layout.card_layout_posts, posts);
                 listView.setAdapter(customListAdapter);
 
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Log.d(TAG, "onItemClick: Clicked: " + posts.get(position).toString());
-                        Intent intent = new Intent(Home.this, Comments.class);
+                        Intent intent = new Intent(HomeActivity.this, CommentsActivity.class);
                         intent.putExtra("@string/post_url", posts.get(position).getPostURL());
                         intent.putExtra("@string/post_thumbnail", posts.get(position).getThumbnailURL());
                         intent.putExtra("@string/post_title", posts.get(position).getTitle());
@@ -193,7 +196,7 @@ public class Home extends AppCompatActivity {
             @Override
             public void onFailure(Call<Feed> call, Throwable t) {
                 Log.e(TAG, "onFailure: Unable to retrieve RSS: " + t.getMessage());
-                Toast.makeText(Home.this, "An error occurred while retrieving RSS" + t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(HomeActivity.this, "An error occurred while retrieving RSS" + t.getMessage(), Toast.LENGTH_LONG).show();
 
             }
         });

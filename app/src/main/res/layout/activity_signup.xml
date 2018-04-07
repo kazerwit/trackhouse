@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="32sp"
-    tools:context="org.trackhouse.trackhouse.SignUp">
+    tools:context="org.trackhouse.trackhouse.SignUpActivity">
 
 
     <EditText

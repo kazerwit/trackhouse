@@ -1,6 +1,5 @@
 package org.trackhouse.trackhouse;
 
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,7 +13,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class PasswordReset extends AppCompatActivity {
+/**
+ * Allows a user to change their password.
+ */
+
+public class PasswordResetActivity extends AppCompatActivity {
 
     private EditText inputEmail;
     private Button btnReset, btnBack;
@@ -61,9 +64,9 @@ public class PasswordReset extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(PasswordReset.this, "We have sent you instructions to reset your password!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(PasswordResetActivity.this, "We have sent you instructions to reset your password!", Toast.LENGTH_SHORT).show();
                                 } else {
-                                    Toast.makeText(PasswordReset.this, "Failed to send reset email!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(PasswordResetActivity.this, "Failed to send reset email!", Toast.LENGTH_SHORT).show();
                                 }
 
                                 progressBar.setVisibility(View.GONE);

@@ -15,6 +15,7 @@ public class ExtractXML {
     private static final String TAG = "ExtractXML";
 
     private String tag;
+    private String endtag;
     private String xml;
 
     /**
@@ -26,18 +27,36 @@ public class ExtractXML {
     public ExtractXML(String tag, String xml) {
         this.tag = tag;
         this.xml = xml;
+        this.endtag = "NONE";
     }
+
+    public ExtractXML(String tag, String xml, String endtag) {
+        this.tag = tag;
+        this.xml = xml;
+        this.endtag = endtag;
+    }
+
 
     public List<String> start(){
         List<String> result = new ArrayList<>();
+        String[] splitXML = null;
+        String marker = null;
 
-        String[] splitXML = xml.split(tag + "\"");
+        if(endtag.equals("NONE")){
+            marker = "\"";
+            splitXML = xml.split(tag + marker);
+        }
+        else {
+            marker = endtag;
+            splitXML = xml.split(tag);
+        }
+
         int count = splitXML.length;
 
         for(int i = 1; i < count; i++){
 
             String temp = splitXML[i];
-            int index = temp.indexOf("\"");
+            int index = temp.indexOf(marker);
             //Log.d(TAG, "start: index: " + index);
             //Log.d(TAG, "start: extracted " + temp);
 
@@ -48,4 +67,5 @@ public class ExtractXML {
 
         return result;
     }
+
 }
