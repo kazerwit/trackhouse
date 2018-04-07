@@ -23,7 +23,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Welcome"
+            android:name=".WelcomeActivity"
             android:theme="@style/noTitle">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,33 +32,36 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Login"
+            android:name=".LoginActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".SignUp"
+            android:name=".SignUpActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".PasswordReset"
+            android:name=".PasswordResetActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Settings"
+            android:name=".SettingsActivity"
             android:label="@string/title_settings" />
         <activity
-            android:name=".Profile"
+            android:name=".ProfileActivity"
             android:label="@string/title_profile" />
         <activity
-            android:name=".Following"
+            android:name=".FollowingActivity"
             android:label="Following" />
         <activity
-            android:name=".Favorites"
+            android:name=".FavoritesActivity"
             android:label="Favorites" />
         <activity
-            android:name=".Home"
+            android:name=".HomeActivity"
             android:label="Home" />
         <activity
-            android:name=".Comments"
+            android:name=".Comments.CommentsActivity"
             android:label="Comments" />
+        <activity
+            android:name=".WebViewActivity"
+            android:label="WebViewActivity" />
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
