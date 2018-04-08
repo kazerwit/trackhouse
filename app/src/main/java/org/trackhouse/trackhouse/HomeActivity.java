@@ -4,20 +4,21 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
-
+import android.support.v7.widget.Toolbar;
 import org.trackhouse.trackhouse.Comments.CommentsActivity;
+import org.trackhouse.trackhouse.RedditAccount.RedditLoginActivity;
 import org.trackhouse.trackhouse.model.Feed;
 import org.trackhouse.trackhouse.model.entry.Entry;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -49,6 +50,8 @@ public class HomeActivity extends AppCompatActivity {
         btnRefreshFeed = (Button) findViewById(R.id.btnRefresh);
         mFeedName = (EditText) findViewById(R.id.feedName);
 
+        setupToolbar();
+
         init();
 
         //TODO: There is a null pointer exception to catch here if getText.toString is null. Add logic to catch
@@ -65,6 +68,29 @@ public class HomeActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    //set up toolbar menu with switch statement to handle navigation items
+    private void setupToolbar(){
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_home);
+        setSupportActionBar(toolbar);
+
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Log.d(TAG, "onMenuItemClick: clicked menu item: " + item);
+
+                switch (item.getItemId()){
+                    case R.id.navigation_reddit_login:
+                        //navigates to RedditLoginActivity
+                        Intent intent = new Intent(HomeActivity.this, RedditLoginActivity.class);
+                        startActivity(intent);
+                }
+
+                return false;
+            }
+        });
+
     }
 
     //TODO: This doesn't work yet. Should get Reddit Front Page if no subreddit is entered in search.
@@ -201,5 +227,11 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.navigation_menu, menu);
+        return true;
     }
 }

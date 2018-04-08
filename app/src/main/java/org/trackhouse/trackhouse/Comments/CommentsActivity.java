@@ -1,12 +1,17 @@
 package org.trackhouse.trackhouse.Comments;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -25,7 +30,9 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import org.trackhouse.trackhouse.ExtractXML;
 import org.trackhouse.trackhouse.FeedAPI;
+import org.trackhouse.trackhouse.HomeActivity;
 import org.trackhouse.trackhouse.R;
+import org.trackhouse.trackhouse.RedditAccount.RedditLoginActivity;
 import org.trackhouse.trackhouse.URLS;
 import org.trackhouse.trackhouse.WebViewActivity;
 import org.trackhouse.trackhouse.model.Feed;
@@ -54,7 +61,6 @@ public class CommentsActivity extends AppCompatActivity {
     private String currentFeed;
     private ListView mListView;
     private TextView loadingText;
-
     private ArrayList<Comment> mComments;
     private ProgressBar mProgressBar;
 
@@ -63,6 +69,8 @@ public class CommentsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comments);
         Log.d(TAG, "onCreate: Started");
+
+        setupToolbar();
 
         mProgressBar = (ProgressBar) findViewById(R.id.commentsLoading);
         mProgressBar.setVisibility(View.VISIBLE);
@@ -73,6 +81,28 @@ public class CommentsActivity extends AppCompatActivity {
         initPost();
 
         init();
+
+    }
+
+    //set up toolbar menu with switch statement to handle navigation items
+    private void setupToolbar(){
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_home);
+        setSupportActionBar(toolbar);
+
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Log.d(TAG, "onMenuItemClick: clicked menu item: " + item);
+
+                switch (item.getItemId()){
+                    case R.id.navigation_reddit_login:
+                        Intent intent = new Intent(CommentsActivity.this, RedditLoginActivity.class);
+                        startActivity(intent);
+                }
+
+                return false;
+            }
+        });
 
     }
 
@@ -139,7 +169,15 @@ public class CommentsActivity extends AppCompatActivity {
                 CommentsListAdapter adapter = new CommentsListAdapter(CommentsActivity.this, R.layout.comments_layout, mComments);
                 mListView.setAdapter(adapter);
 
-                mProgressBar.setVisibility(View.GONE);
+                //for testing, to ensure that dialog box is popping up
+                mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                                     @Override
+                                                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                         getUserComment();
+                                                     }
+                                                 });
+
+                        mProgressBar.setVisibility(View.GONE);
                 loadingText.setText("");
             }
 
@@ -165,7 +203,7 @@ public class CommentsActivity extends AppCompatActivity {
         TextView author = (TextView) findViewById(R.id.postAuthor);
         TextView updated = (TextView) findViewById(R.id.postUpdated);
         ImageView thumbnail = (ImageView) findViewById(R.id.post_thumbnail);
-        Button btnReply = (Button) findViewById(R.id.btnReply);
+        Button btnReply = (Button) findViewById(R.id.btn_reply);
         ProgressBar progressBar = (ProgressBar) findViewById(R.id.postsLoading);
 
         title.setText(postTitle);
@@ -185,6 +223,17 @@ public class CommentsActivity extends AppCompatActivity {
             Log.e(TAG, "initPost: ArrayIndexOutOfBoundsException: " + e.getMessage());
         }
 
+        //when "reply" button is clicked, it will call getUserComment, which opens a dialog/text entry
+        //for comment.
+        btnReply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: reply.");
+                getUserComment();
+            }
+        });
+
+
         thumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -194,6 +243,23 @@ public class CommentsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    //creates dialog box for user comment, which will show when a user clicks a comment or
+    //clicks the "reply" button
+    private void getUserComment(){
+        final Dialog dialog = new Dialog(CommentsActivity.this);
+        dialog.setTitle("dialog");
+        dialog.setContentView(R.layout.comment_input_dialog);
+
+        //this sets dialog box parameters so that dialog doesn't take up full screen. Change
+        //later if full screen desired.
+
+        int width = (int)(getResources().getDisplayMetrics().widthPixels*.95);
+        int height = (int)(getResources().getDisplayMetrics().heightPixels*.6);
+
+        dialog.getWindow().setLayout(width, height);
+        dialog.show();
     }
 
     private void displayImage(String imageURL, ImageView imageView, final ProgressBar progressBar){
@@ -258,4 +324,10 @@ public class CommentsActivity extends AppCompatActivity {
 
         defaultImage = CommentsActivity.this.getResources().getIdentifier("@drawable/reddit_alien",null,CommentsActivity.this.getPackageName());
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.navigation_menu, menu);
+        return true;
+    }
+
 }
