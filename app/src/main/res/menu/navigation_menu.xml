@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:title="Login to Reddit"
+        android:id="@+id/navigation_reddit_login"
+        />
+
+    <item
+        android:title="App Login Test"
+        android:id="@+id/navigation_app_login"
+        />
+
+</menu>
