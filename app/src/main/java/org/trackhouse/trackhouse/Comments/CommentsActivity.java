@@ -2,8 +2,10 @@ package org.trackhouse.trackhouse.Comments;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -37,10 +40,8 @@ import org.trackhouse.trackhouse.URLS;
 import org.trackhouse.trackhouse.WebViewActivity;
 import org.trackhouse.trackhouse.model.Feed;
 import org.trackhouse.trackhouse.model.entry.Entry;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -56,13 +57,18 @@ public class CommentsActivity extends AppCompatActivity {
     URLS urls = new URLS();
 
     private static final String TAG = "CommentsActivity";
-    private static String postURL, postThumbnailURL, postTitle, postAuthor, postUpdated;
+    private static String postURL, postThumbnailURL, postTitle, postAuthor, postUpdated, postId;
     private int defaultImage;
     private String currentFeed;
     private ListView mListView;
     private TextView loadingText;
     private ArrayList<Comment> mComments;
     private ProgressBar mProgressBar;
+
+    //strings for shared preferences to store user variables
+    private String modhash;
+    private String cookie;
+    private String username;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,6 +77,8 @@ public class CommentsActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: Started");
 
         setupToolbar();
+
+        getSessionParams();
 
         mProgressBar = (ProgressBar) findViewById(R.id.commentsLoading);
         mProgressBar.setVisibility(View.VISIBLE);
@@ -173,7 +181,7 @@ public class CommentsActivity extends AppCompatActivity {
                 mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                                      @Override
                                                      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                                         getUserComment();
+                                                         getUserComment(postId);
                                                      }
                                                  });
 
@@ -198,6 +206,7 @@ public class CommentsActivity extends AppCompatActivity {
         postTitle = incomingIntent.getStringExtra("@string/post_title");
         postAuthor = incomingIntent.getStringExtra("@string/post_author");
         postUpdated = incomingIntent.getStringExtra("@string/post_updated");
+        postId = incomingIntent.getStringExtra("@string/post_id");
 
         TextView title = (TextView) findViewById(R.id.postTitle);
         TextView author = (TextView) findViewById(R.id.postAuthor);
@@ -229,7 +238,7 @@ public class CommentsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: reply.");
-                getUserComment();
+                getUserComment(postId);
             }
         });
 
@@ -247,7 +256,7 @@ public class CommentsActivity extends AppCompatActivity {
 
     //creates dialog box for user comment, which will show when a user clicks a comment or
     //clicks the "reply" button
-    private void getUserComment(){
+    private void getUserComment(String post_id){
         final Dialog dialog = new Dialog(CommentsActivity.this);
         dialog.setTitle("dialog");
         dialog.setContentView(R.layout.comment_input_dialog);
@@ -260,7 +269,38 @@ public class CommentsActivity extends AppCompatActivity {
 
         dialog.getWindow().setLayout(width, height);
         dialog.show();
+
+        Button btnPostComment = (Button) dialog.findViewById(R.id.btn_post_comment);
+        final EditText comment = (EditText) dialog.findViewById(R.id.dialog_comment);
+
+        btnPostComment.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Log.d(TAG, "onCLick: Attempting to post comment");
+
+                //TODO: post comment stuff for Retrofit
+
+            }
+        });
     }
+
+    /**
+     * Retrieves shared preferences from login activity and saves the strings to local variables
+     */
+    private void getSessionParams(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(CommentsActivity.this);
+
+        username = preferences.getString("@string/session_username", "");
+        modhash = preferences.getString("@string/session_modhash", "");
+        cookie = preferences.getString("@string/session_cookie", "");
+
+        Log.d(TAG, "getSessionParams: Storing session variables:  \n" +
+                "username: " + username + "\n" +
+                "modhash: " + modhash + "\n" +
+                "cookie: " + cookie + "\n"
+        );
+    }
+
 
     private void displayImage(String imageURL, ImageView imageView, final ProgressBar progressBar){
 
@@ -330,4 +370,14 @@ public class CommentsActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * If user is redirected to Comments Activity, this will call the getSessionParams method
+     * in order to get the Shared Preferences from the login info.
+     */
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        Log.d(TAG, "onPostResume: Resuming Comments Activity");
+        getSessionParams();
+    }
 }

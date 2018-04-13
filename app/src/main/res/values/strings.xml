@@ -67,7 +67,7 @@
     <string name="forgot_password">Forgot Password?</string>
 
 
-    <!-- Strings relatedHomeActivityHome page -->
+    <!-- Strings related Home Activity -->
     <string name="loading_comments">Loading Comments . . ."</string>
     <string name="last_updated">Last Updated"</string>
     <string name="author">Author"</string>
@@ -78,5 +78,12 @@
     <string name="post_title">post_title</string>
     <string name="post_author">post_author</string>
     <string name="post_updated">post_updated</string>
+    <string name="post_id">post_id</string>
+
+    <!-- Strings related to Reddit Login Activity -->
+    <string name="create_reddit_account">No account yet? Create one</string>
+    <string name="session_username">org.trackhouse.trackhouse.RedditAccount.session_username</string>
+    <string name="session_modhash">org.trackhouse.trackhouse.RedditAccount.session_modhash</string>
+    <string name="session_cookie">org.trackhouse.trackhouse.RedditAccount.session_cookie</string>
 
 </resources>

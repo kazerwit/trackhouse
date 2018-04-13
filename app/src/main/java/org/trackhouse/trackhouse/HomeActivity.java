@@ -80,14 +80,25 @@ public class HomeActivity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 Log.d(TAG, "onMenuItemClick: clicked menu item: " + item);
 
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.navigation_reddit_login:
-                        //navigates to RedditLoginActivity
+                        //navigates to Reddit Login Activity
                         Intent intent = new Intent(HomeActivity.this, RedditLoginActivity.class);
                         startActivity(intent);
-                }
+                        return true;
 
-                return false;
+                    //TODO: this case isn't w
+                        case R.id.navigation_app_login:
+                        //navigates to App Login Activity
+                        Intent intent2 = new Intent(HomeActivity.this, LoginActivity.class);
+                        startActivity(intent2);
+                        return true;
+
+                    default:
+                        //if we got here, the user's action was not recognized
+                        //invoke the superclass to handle it
+                        return HomeActivity.super.onOptionsItemSelected(item);
+                }
             }
         });
 
@@ -169,7 +180,8 @@ public class HomeActivity extends AppCompatActivity {
                                 entries.get(i).getAuthor().getName(),
                                 entries.get(i).getUpdated(),
                                 postContent.get(0),
-                                postContent.get(lastPosition)  //image
+                                postContent.get(lastPosition), //image
+                                entries.get(i).getId()
 
                         ));
 
@@ -179,8 +191,8 @@ public class HomeActivity extends AppCompatActivity {
                                 "None",
                                 entries.get(i).getUpdated(),
                                 postContent.get(0),
-                                postContent.get(lastPosition)  //image
-
+                                postContent.get(lastPosition),  //image
+                                entries.get(i).getId()
                         ));
 
                         Log.e(TAG, "onResponse: NullPointerException: " + e.getMessage());
@@ -190,19 +202,21 @@ public class HomeActivity extends AppCompatActivity {
 
                 //test to print out post details in log for card view
                 //TODO: delete this test later
-                //for(int j = 0; j < posts.size(); j++){
+                for(int j = 0; j < posts.size(); j++){
 
-                    //Log.d(TAG, "onResponse: \n " +
-                            //"PostURL: " + posts.get(j).getPostURL() + "\n" +
-                            //"ThumbnailURL: " + posts.get(j).getThumbnailURL() + "\n" +
-                            //"Title: " + posts.get(j).getTitle() + "\n" +
-                            //"Author: " + posts.get(j).getAuthor() + "\n" +
-                            //"Updated: " + posts.get(j).getDate_updated() + "\n");
-                //}
+                    Log.d(TAG, "onResponse: \n " +
+                            "PostURL: " + posts.get(j).getPostURL() + "\n" +
+                            "ThumbnailURL: " + posts.get(j).getThumbnailURL() + "\n" +
+                            "Title: " + posts.get(j).getTitle() + "\n" +
+                            "Author: " + posts.get(j).getAuthor() + "\n" +
+                            "Updated: " + posts.get(j).getDate_updated() + "\n" +
+                            "Id: " + posts.get(j).getId() + "\n");
+                }
                 ListView listView = (ListView) findViewById(R.id.listView);
                 CustomListAdapter customListAdapter = new CustomListAdapter(HomeActivity.this, R.layout.card_layout_posts, posts);
                 listView.setAdapter(customListAdapter);
 
+                //navigates to Comments Activity and passes post information to that activity
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -213,6 +227,7 @@ public class HomeActivity extends AppCompatActivity {
                         intent.putExtra("@string/post_title", posts.get(position).getTitle());
                         intent.putExtra("@string/post_author", posts.get(position).getAuthor());
                         intent.putExtra("@string/post_updated", posts.get(position).getDate_updated());
+                        intent.putExtra("@string/post_id", posts.get(position).getId());
                         startActivity(intent);
                     }
                 });
