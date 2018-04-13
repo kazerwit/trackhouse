@@ -1,10 +1,16 @@
 package org.trackhouse.trackhouse;
 
+import org.trackhouse.trackhouse.RedditAccount.CheckLogin;
 import org.trackhouse.trackhouse.model.Feed;
+
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.HeaderMap;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Create FeedAPI Interface for use with Retrofit. The base URL is set here and
@@ -22,5 +28,15 @@ public interface FeedAPI {
     //static feed name for Reddit Front Page, if no subreddit is entered in search
     @GET("{feed_name}")
     Call<Feed> getFeedDefault(@Path("feed_name") String feed_name);
+
+    @POST("{user}")
+    Call<CheckLogin> redditSignIn(
+            //header map allows for a list of keys and values
+            @HeaderMap Map<String, String> headers,
+            @Path("user") String username,
+            @Query("user") String user,
+            @Query("passwd") String password,
+            @Query("api_type") String type
+            );
 
 }
