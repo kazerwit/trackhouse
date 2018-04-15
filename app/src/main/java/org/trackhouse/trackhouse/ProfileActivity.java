@@ -67,7 +67,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     /**
      * Creates user in Firebase "users" table. For now, when a user saves or updates their username
-     * here, the location is reset to 0 long/0 lat. Redirects user to HomeActivity activity directly
+     * here, the location is reset to 0 long/0 lat. Redirects user to SearchActivity activity directly
      * after this action so that location can be saved again.
      * @param userId
      * @param username
@@ -80,8 +80,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         Toast.makeText(this,"Username created", Toast.LENGTH_SHORT).show();
 
-        //loads HomeActivity activity once username is updated
-        startActivity(new Intent(this,HomeActivity.class));
+        //loads SearchActivity activity once username is updated
+        startActivity(new Intent(this,SearchActivity.class));
     }
 
     @Override
@@ -101,7 +101,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
 
         if(view == buttonSkip) {
-            startActivity(new Intent(this, HomeActivity.class));
+            startActivity(new Intent(this, SearchActivity.class));
 
         }
     }

@@ -1,5 +1,6 @@
 package org.trackhouse.trackhouse;
 
+import org.trackhouse.trackhouse.Comments.CheckComment;
 import org.trackhouse.trackhouse.RedditAccount.CheckLogin;
 import org.trackhouse.trackhouse.model.Feed;
 
@@ -38,5 +39,16 @@ public interface FeedAPI {
             @Query("passwd") String password,
             @Query("api_type") String type
             );
+
+    //reddit API requires both the user modhash and the cookie to post comments
+    @POST("{comment}")
+    Call<CheckComment> submitComment(
+            //header map allows for a list of keys and values
+            @HeaderMap Map<String, String> headers,
+            @Path("comment") String comment,
+            @Query("parent") String parent,
+            @Query("amp;text") String text
+    );
+
 
 }

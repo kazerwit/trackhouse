@@ -48,14 +48,8 @@
             android:name=".ProfileActivity"
             android:label="@string/title_profile" />
         <activity
-            android:name=".FollowingActivity"
-            android:label="Following" />
-        <activity
-            android:name=".FavoritesActivity"
-            android:label="Favorites" />
-        <activity
-            android:name=".HomeActivity"
-            android:label="Home" />
+            android:name=".SearchActivity"
+            android:label="Search" />
         <activity
             android:name=".Comments.CommentsActivity"
             android:label="Comments" />

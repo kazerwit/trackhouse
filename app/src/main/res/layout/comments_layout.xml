@@ -13,7 +13,8 @@
         app:contentPaddingRight="10dp"
         app:contentPaddingLeft="10dp"
         app:cardMaxElevation="15dp"
-        android:elevation="10dp">
+        android:elevation="10dp"
+        android:background="@drawable/grey_border_cardview">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -30,7 +31,8 @@
                     android:gravity="center_vertical"
                     android:text="comment"
                     android:layout_marginTop="3dp"
-                    android:textStyle="bold"/>
+                    android:paddingBottom="3dp"
+                    android:textColor="@color/colorDarkGrey"/>
 
                 <TextView
                     android:id="@+id/comment_author"
@@ -40,7 +42,7 @@
                     android:text="author"
                     android:layout_marginTop="3dp"
                     android:layout_below="@+id/comment"
-                    android:textSize="12sp"/>
+                    android:textSize="10sp"/>
 
                 <TextView
                     android:id="@+id/comment_updated"
@@ -50,7 +52,7 @@
                     android:text="updated"
                     android:layout_marginTop="3dp"
                     android:layout_below="@id/comment_author"
-                    android:textSize="12sp"/>
+                    android:textSize="10sp"/>
 
             </RelativeLayout>
             

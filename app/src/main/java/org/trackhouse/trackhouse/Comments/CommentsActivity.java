@@ -33,7 +33,6 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import org.trackhouse.trackhouse.ExtractXML;
 import org.trackhouse.trackhouse.FeedAPI;
-import org.trackhouse.trackhouse.HomeActivity;
 import org.trackhouse.trackhouse.R;
 import org.trackhouse.trackhouse.RedditAccount.RedditLoginActivity;
 import org.trackhouse.trackhouse.URLS;
@@ -41,15 +40,17 @@ import org.trackhouse.trackhouse.WebViewActivity;
 import org.trackhouse.trackhouse.model.Feed;
 import org.trackhouse.trackhouse.model.entry.Entry;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 /**
- * CommentsActivity activity to show post details. This activity is triggered when a user clicks on a post from the HomeActivity page.
+ * CommentsActivity activity to show post details. This activity is triggered when a user clicks on a post from the SearchActivity page.
  */
 
 public class CommentsActivity extends AppCompatActivity {
@@ -132,9 +133,9 @@ public class CommentsActivity extends AppCompatActivity {
                 //Log.d(TAG, "onResponse: feed: " + response.body().toString());
 
                 //shows server response code. If OK will show 200
-                Log.d(TAG, "onResponse: Server Response: " + response.toString());
+                //Log.d(TAG, "onResponse: Server Response: " + response.toString());
 
-                Toast.makeText(CommentsActivity.this, "Server response " + response.toString(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(CommentsActivity.this, "Server response " + response.toString(), Toast.LENGTH_SHORT).show();
 
                 mComments = new ArrayList<Comment>();
                 List<Entry> entries = response.body().getEntries();
@@ -177,11 +178,11 @@ public class CommentsActivity extends AppCompatActivity {
                 CommentsListAdapter adapter = new CommentsListAdapter(CommentsActivity.this, R.layout.comments_layout, mComments);
                 mListView.setAdapter(adapter);
 
-                //for testing, to ensure that dialog box is popping up
+                //TODO: this should get the comment ID and post the reply to that comment, but it isn't working
                 mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                                      @Override
                                                      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                                         getUserComment(postId);
+                                                         getUserComment(mComments.get(position).getId());
                                                      }
                                                  });
 
@@ -192,7 +193,7 @@ public class CommentsActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<Feed> call, Throwable t) {
                 Log.e(TAG, "onFailure: Unable to retrieve RSS: " + t.getMessage());
-                Toast.makeText(CommentsActivity.this, "An error occurred while retrieving RSS" + t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(CommentsActivity.this, "An error occurred while retrieving feed " + t.getMessage(), Toast.LENGTH_LONG).show();
 
             }
         });
@@ -278,7 +279,61 @@ public class CommentsActivity extends AppCompatActivity {
             public void onClick(View v){
                 Log.d(TAG, "onCLick: Attempting to post comment");
 
-                //TODO: post comment stuff for Retrofit
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(urls.COMMENT_URL)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+
+                FeedAPI feedAPI = retrofit.create(FeedAPI.class);
+
+                HashMap<String, String> headerMap = new HashMap<>();
+                headerMap.put("User-Agent", username);
+                headerMap.put("X-Modhash", modhash);
+                headerMap.put("cookie", "reddit_session=" + cookie);
+
+                Log.d(TAG, "btnPostComment  \n" +
+                        "username: " + username + "\n" +
+                        "modhash: " + modhash + "\n" +
+                        "cookie: " + cookie + "\n"
+                );
+
+                String theComment = comment.getText().toString();
+
+                //TODO: comment is currently posting under the main entry, but not as a reply to the correct
+                //TODO: comment. Need to maybe add comment URL details for the comment we're replying to in the object??
+                Call<CheckComment> call = feedAPI.submitComment(headerMap, "comment", postId, theComment);
+                call.enqueue(new Callback<CheckComment>() {
+                    @Override
+                    public void onResponse(Call<CheckComment> call, Response<CheckComment> response) {
+                        try {
+                            //Log.d(TAG, "onResponse: feed: " + response.body().toString());
+
+                            //shows server response code. If OK will show 200
+                            Log.d(TAG, "onResponse: Server Response: " + response.toString());
+
+                            //retrieve success response from server. success value will be true or false
+                            String postSuccess = response.body().getSuccess();
+
+                            if(postSuccess.equals("true")){
+                                dialog.dismiss();
+                                Toast.makeText(CommentsActivity.this, "Post Successful", Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(CommentsActivity.this, "An error occurred. Did you sign in? Server response: " + postSuccess, Toast.LENGTH_LONG).show();
+                            }
+
+                        } catch (NullPointerException e) {
+                            Log.e(TAG, "onResponse: NullPointerException: " + e.getMessage());
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<CheckComment> call, Throwable t) {
+                        Log.e(TAG, "onFailure: Unable to post comment: " + t.getMessage());
+                        Toast.makeText(CommentsActivity.this, "An error occurred while posting comment" + t.getMessage(), Toast.LENGTH_LONG).show();
+
+                    }
+                });
 
             }
         });
