@@ -15,16 +15,16 @@
             android:id="@+id/dialog_comment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="90"
+            android:layout_weight="75"
             android:gravity="top"
             android:hint="Your comment..."/>
 
         <Button
             android:id="@+id/btn_post_comment"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="20dp"
             android:layout_weight="10"
-            android:text="Post Comment"
+            android:text="@string/btn_post_comment"
             android:textAllCaps="false"
             android:textSize="12sp"
             android:textAlignment="center"
@@ -33,7 +33,7 @@
             android:layout_marginTop="5dp"
             android:textColor="@color/colorWhite"
             android:background="@drawable/orange_rounded_button"
-            android:padding="12dp" />
+            android:padding="12dp"/>
 
 
 

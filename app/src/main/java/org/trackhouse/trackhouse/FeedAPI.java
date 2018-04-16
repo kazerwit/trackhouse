@@ -26,10 +26,6 @@ public interface FeedAPI {
     @GET("/r/{feed_name}/.rss")
     Call<Feed> getFeed(@Path("feed_name") String feed_name);
 
-    //static feed name for Reddit Front Page, if no subreddit is entered in search
-    @GET("{feed_name}")
-    Call<Feed> getFeedDefault(@Path("feed_name") String feed_name);
-
     @POST("{user}")
     Call<CheckLogin> redditSignIn(
             //header map allows for a list of keys and values

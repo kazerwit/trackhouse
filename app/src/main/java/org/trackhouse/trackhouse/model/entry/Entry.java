@@ -9,8 +9,6 @@ import java.io.Serializable;
  * Class to handle RSS entries
  */
 
-//TODO: Author is not getting pulled, is showing "null" in output. Fix.
-
 @Root(name = "entry", strict = false)
 public class Entry implements Serializable{
 
