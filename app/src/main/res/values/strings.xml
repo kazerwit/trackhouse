@@ -12,9 +12,6 @@
     <string name="go_back">GO BACK</string>
     <string name="prompt_email">Email</string>
 
-    <!-- Strings related to Favorites Activity-->
-    <string name="title_favorites">Favorites</string>
-
 
     <!-- Strings related to Sign Up Activity-->
     <string name="already_registered">Already registered? Click here to login</string>
@@ -79,6 +76,7 @@
     <string name="post_author">post_author</string>
     <string name="post_updated">post_updated</string>
     <string name="post_id">post_id</string>
+    <string name="btn_post_comment">Post comment</string>
 
     <!-- Strings related to Reddit Login Activity -->
     <string name="create_reddit_account">No account yet? Create one</string>

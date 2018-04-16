@@ -1,5 +1,6 @@
 package org.trackhouse.trackhouse;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,10 +25,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
+import android.view.inputmethod.InputMethodManager;
 
 /**
- * Activity class which displays a Home page, showing a search bar that accepts a subreddit
- * name and then displays the subreddit's posts in a clickable recycler view.
+ * Activity class which displays a Home page with Reddit Front Page feed. User can enter a
+ * subreddit name in the search to load a different feed.
  */
 
 public class SearchActivity extends AppCompatActivity {
@@ -39,6 +41,7 @@ public class SearchActivity extends AppCompatActivity {
     private Button btnRefreshFeed;
     private EditText mFeedName;
     private String currentFeed;
+    private String defaultFeedName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +51,13 @@ public class SearchActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: starting.");
 
         btnRefreshFeed = (Button) findViewById(R.id.btnRefresh);
+
         mFeedName = (EditText) findViewById(R.id.feedName);
 
         setupToolbar();
 
-        init();
+        //TODO: this method doesn't currently get our default feed - the Reddit Front Page, due to a ValueRequiredException
+        initDefault();
 
         //TODO: There is a null pointer exception to catch here if getText.toString is null. Add logic to catch
         btnRefreshFeed.setOnClickListener(new View.OnClickListener() {
@@ -62,9 +67,18 @@ public class SearchActivity extends AppCompatActivity {
                 if(!feedName.equals("")){
                     currentFeed = feedName;
                     init();
+                    InputMethodManager inputManager = (InputMethodManager)
+                            getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                    inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                            InputMethodManager.HIDE_NOT_ALWAYS);
                 } else {
-                    init();
-                    //defaultView();  //doesn't currently work
+                    initDefault();  //loads Reddit Front Page
+                    InputMethodManager inputManager = (InputMethodManager)
+                            getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                    inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                            InputMethodManager.HIDE_NOT_ALWAYS);
                 }
             }
         });
@@ -87,7 +101,7 @@ public class SearchActivity extends AppCompatActivity {
                         startActivity(intent);
                         return true;
 
-                    //TODO: this case isn't w
+                    //TODO: this case isn't working
                         case R.id.navigation_app_login:
                         //navigates to App Login Activity
                         Intent intent2 = new Intent(SearchActivity.this, LoginActivity.class);
@@ -103,11 +117,6 @@ public class SearchActivity extends AppCompatActivity {
         });
 
     }
-
-    //TODO: This doesn't work yet. Should get Reddit Front Page if no subreddit is entered in search.
-    //TODO: Currently the app crashes if "Refresh" is hit without a subreddit in the search. Add all of the
-    //TODO: code from the init() method here within defaultView method, but the feed call will call static defaultFeed instead.
-    // private void defaultView()
 
 
     //uses Retrofit to get feeds based on the subreddit text entry on SearchActivity page
@@ -154,7 +163,6 @@ public class SearchActivity extends AppCompatActivity {
                     try {
                         postContent.add(extractXML2.start().get(0));
                     } catch (NullPointerException e){
-                        //TODO: add default image for posts without an image
                         postContent.add(null);
                         Log.e(TAG, "onResponse: NullPointerException(thumbnail)" + e.getMessage());
                     } catch (IndexOutOfBoundsException e){
@@ -191,7 +199,130 @@ public class SearchActivity extends AppCompatActivity {
                 }
 
                 //test to print out post details in log for card view
-                //TODO: delete this test later
+                for(int j = 0; j < posts.size(); j++){
+
+                    Log.d(TAG, "onResponse: \n " +
+                            "PostURL: " + posts.get(j).getPostURL() + "\n" +
+                            "ThumbnailURL: " + posts.get(j).getThumbnailURL() + "\n" +
+                            "Title: " + posts.get(j).getTitle() + "\n" +
+                            "Author: " + posts.get(j).getAuthor() + "\n" +
+                            "Updated: " + posts.get(j).getDate_updated() + "\n" +
+                            "Id: " + posts.get(j).getId() + "\n");
+                }
+                ListView listView = (ListView) findViewById(R.id.listView);
+                CustomListAdapter customListAdapter = new CustomListAdapter(SearchActivity.this, R.layout.card_layout_posts, posts);
+                listView.setAdapter(customListAdapter);
+
+                //navigates to Comments Activity and passes post information to that activity
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Log.d(TAG, "onItemClick: Clicked: " + posts.get(position).toString());
+                        Intent intent = new Intent(SearchActivity.this, CommentsActivity.class);
+                        intent.putExtra("@string/post_url", posts.get(position).getPostURL());
+                        intent.putExtra("@string/post_thumbnail", posts.get(position).getThumbnailURL());
+                        intent.putExtra("@string/post_title", posts.get(position).getTitle());
+                        intent.putExtra("@string/post_author", posts.get(position).getAuthor());
+                        intent.putExtra("@string/post_updated", posts.get(position).getDate_updated());
+                        intent.putExtra("@string/post_id", posts.get(position).getId());
+                        startActivity(intent);
+                    }
+                });
+
+            }
+
+            @Override
+            public void onFailure(Call<Feed> call, Throwable t) {
+                Log.e(TAG, "onFailure: Unable to retrieve RSS: " + t.getMessage());
+                Toast.makeText(SearchActivity.this, "An error occurred while retrieving feed. Please enter a subreddit " + t.getMessage(), Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+    }
+
+    //gets Front Page feed as the default feed
+    private void initDefault(){
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(urls.BASE_URL)
+                .addConverterFactory(SimpleXmlConverterFactory.create())
+                .build();
+
+        currentFeed="reddit.com";
+
+        FeedAPI feedAPI = retrofit.create(FeedAPI.class);
+
+        Call<Feed> call = feedAPI.getFeed(currentFeed);
+
+        call.enqueue(new Callback<Feed>() {
+            /**
+             * If call is successful, gets the objects specified within onResponse and handles the strings.
+             * Can modify later to get more info., such as info. on the subreddit rather than just
+             * the entries.
+             * @param call
+             * @param response
+             */
+            @Override
+            public void onResponse(Call<Feed> call, Response<Feed> response) {
+                Log.d(TAG, "onResponse: feed: " + response.body().toString());
+
+                //shows server response code. If OK will show 200
+                Log.d(TAG, "onResponse: Server Response: " + response.toString());
+
+                Toast.makeText(SearchActivity.this, "Server response " + response.toString(), Toast.LENGTH_SHORT).show();
+
+                List<Entry> entries = response.body().getEntries();
+
+
+                //List to hold card view details for posts to display in recycler view
+                final ArrayList<Post> posts = new ArrayList<Post>();
+
+                for(int i = 0; i < entries.size(); i++) {
+                    ExtractXML extractXML1 = new ExtractXML("<a href=", entries.get(i).getContent());
+                    List<String> postContent = extractXML1.start();
+
+                    ExtractXML extractXML2 = new ExtractXML("<img src=", entries.get(i).getContent());
+
+                    try {
+                        postContent.add(extractXML2.start().get(0));
+                    } catch (NullPointerException e){
+                        postContent.add(null);
+                        Log.e(TAG, "onResponse: NullPointerException(thumbnail)" + e.getMessage());
+                    } catch (IndexOutOfBoundsException e){
+                        postContent.add(null);
+                        Log.e(TAG, "onResponse: IndexOutOfBoundsException(thumbnail)" + e.getMessage());
+                    }
+                    int lastPosition = postContent.size() - 1;
+
+                    //handles NullPointerException errors when retrieving post data - specifically for null author
+                    try{
+                        posts.add(new Post(
+                                entries.get(i).getTitle(),
+                                entries.get(i).getAuthor().getName(),
+                                entries.get(i).getUpdated(),
+                                postContent.get(0),
+                                postContent.get(lastPosition), //image
+                                entries.get(i).getId()
+
+                        ));
+
+                    }catch (NullPointerException e){
+                        posts.add(new Post(
+                                entries.get(i).getTitle(),
+                                "None",
+                                entries.get(i).getUpdated(),
+                                postContent.get(0),
+                                postContent.get(lastPosition),  //image
+                                entries.get(i).getId()
+                        ));
+
+                        Log.e(TAG, "onResponse: NullPointerException: " + e.getMessage());
+
+                    }
+                }
+
+                //test to print out post details in log for card view
                 for(int j = 0; j < posts.size(); j++){
 
                     Log.d(TAG, "onResponse: \n " +
