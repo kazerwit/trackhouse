@@ -30,11 +30,11 @@ import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
  * name and then displays the subreddit's posts in a clickable recycler view.
  */
 
-public class HomeActivity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity {
 
     URLS urls = new URLS();
 
-    private static final String TAG = "HomeActivity";
+    private static final String TAG = "SearchActivity";
 
     private Button btnRefreshFeed;
     private EditText mFeedName;
@@ -43,7 +43,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_search);
 
         Log.d(TAG, "onCreate: starting.");
 
@@ -83,21 +83,21 @@ public class HomeActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.navigation_reddit_login:
                         //navigates to Reddit Login Activity
-                        Intent intent = new Intent(HomeActivity.this, RedditLoginActivity.class);
+                        Intent intent = new Intent(SearchActivity.this, RedditLoginActivity.class);
                         startActivity(intent);
                         return true;
 
                     //TODO: this case isn't w
                         case R.id.navigation_app_login:
                         //navigates to App Login Activity
-                        Intent intent2 = new Intent(HomeActivity.this, LoginActivity.class);
+                        Intent intent2 = new Intent(SearchActivity.this, LoginActivity.class);
                         startActivity(intent2);
                         return true;
 
                     default:
                         //if we got here, the user's action was not recognized
                         //invoke the superclass to handle it
-                        return HomeActivity.super.onOptionsItemSelected(item);
+                        return SearchActivity.super.onOptionsItemSelected(item);
                 }
             }
         });
@@ -110,7 +110,7 @@ public class HomeActivity extends AppCompatActivity {
     // private void defaultView()
 
 
-    //uses Retrofit to get feeds based on the subreddit text entry on HomeActivity page
+    //uses Retrofit to get feeds based on the subreddit text entry on SearchActivity page
     private void init(){
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -120,8 +120,6 @@ public class HomeActivity extends AppCompatActivity {
 
         FeedAPI feedAPI = retrofit.create(FeedAPI.class);
 
-        //TODO: Add code for if current feed != "", we proceed here. Else, we get the static url reddit.com (Front Page).
-        //TODO: Look at Feed API class to add static url.
         Call<Feed> call = feedAPI.getFeed(currentFeed);
 
         call.enqueue(new Callback<Feed>() {
@@ -139,17 +137,9 @@ public class HomeActivity extends AppCompatActivity {
                 //shows server response code. If OK will show 200
                 Log.d(TAG, "onResponse: Server Response: " + response.toString());
 
-                Toast.makeText(HomeActivity.this, "Server response " + response.toString(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(SearchActivity.this, "Server response " + response.toString(), Toast.LENGTH_SHORT).show();
 
                 List<Entry> entries = response.body().getEntries();
-
-                //Log.d(TAG, "onResponse: entries: " + response.body().getEntries());
-
-                //Log.d(TAG, "onResponse: author: " + entries.get(1).getAuthor().getName());
-
-                //Log.d(TAG, "onResponse: updated: " + entries.get(1).getUpdated());
-
-                //Log.d(TAG, "onResponse: title: " + entries.get(1).getTitle());
 
 
                 //List to hold card view details for posts to display in recycler view
@@ -213,7 +203,7 @@ public class HomeActivity extends AppCompatActivity {
                             "Id: " + posts.get(j).getId() + "\n");
                 }
                 ListView listView = (ListView) findViewById(R.id.listView);
-                CustomListAdapter customListAdapter = new CustomListAdapter(HomeActivity.this, R.layout.card_layout_posts, posts);
+                CustomListAdapter customListAdapter = new CustomListAdapter(SearchActivity.this, R.layout.card_layout_posts, posts);
                 listView.setAdapter(customListAdapter);
 
                 //navigates to Comments Activity and passes post information to that activity
@@ -221,7 +211,7 @@ public class HomeActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Log.d(TAG, "onItemClick: Clicked: " + posts.get(position).toString());
-                        Intent intent = new Intent(HomeActivity.this, CommentsActivity.class);
+                        Intent intent = new Intent(SearchActivity.this, CommentsActivity.class);
                         intent.putExtra("@string/post_url", posts.get(position).getPostURL());
                         intent.putExtra("@string/post_thumbnail", posts.get(position).getThumbnailURL());
                         intent.putExtra("@string/post_title", posts.get(position).getTitle());
@@ -237,7 +227,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<Feed> call, Throwable t) {
                 Log.e(TAG, "onFailure: Unable to retrieve RSS: " + t.getMessage());
-                Toast.makeText(HomeActivity.this, "An error occurred while retrieving RSS" + t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(SearchActivity.this, "An error occurred while retrieving feed. Please enter a subreddit " + t.getMessage(), Toast.LENGTH_LONG).show();
 
             }
         });

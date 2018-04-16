@@ -25,9 +25,9 @@ public class WelcomeActivity extends AppCompatActivity {
         //get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
-        //if user is already logged in they are taken to the HomeActivity activity
+        //if user is already logged in they are taken to the SearchActivity activity
         if (auth.getCurrentUser() != null) {
-            startActivity(new Intent(WelcomeActivity.this, HomeActivity.class));
+            startActivity(new Intent(WelcomeActivity.this, SearchActivity.class));
             finish();
         }
 

@@ -6,11 +6,7 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="org.trackhouse.trackhouse.HomeActivity">
+    tools:context="org.trackhouse.trackhouse.SearchActivity">
 
 
     <android.support.v7.widget.CardView
@@ -20,7 +16,9 @@
         app:cardElevation="10dp"
         app:contentPaddingRight="10dp"
         app:contentPaddingLeft="10dp"
-        app:cardMaxElevation="15dp">
+        app:cardMaxElevation="15dp"
+        android:background="@drawable/grey_border_cardview"
+        android:elevation="10dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -32,7 +30,9 @@
                 android:layout_height="70dp"
                 android:id="@+id/cardImage"
                 android:scaleType="centerCrop"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -47,7 +47,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:textColor="@color/colorDarkGrey"/>
 
                 <TextView
                     android:id="@+id/cardAuthor"

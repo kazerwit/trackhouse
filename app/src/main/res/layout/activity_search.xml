@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.trackhouse.trackhouse.HomeActivity">
+    tools:context="org.trackhouse.trackhouse.SearchActivity">
 
     <RelativeLayout
         android:id="@+id/rel_layout_toolbar"
@@ -15,7 +15,8 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar_home"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@drawable/grey_border_toolbars">
 
         </android.support.v7.widget.Toolbar>
 
@@ -27,7 +28,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="100"
-        android:layout_below="@+id/rel_layout_toolbar">
+        android:layout_below="@+id/rel_layout_toolbar"
+        android:background="@drawable/black_border">
         
         <EditText
             android:id="@+id/feedName"
@@ -41,12 +43,17 @@
 
         <Button
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:layout_weight="30"
-            android:text="REFRESH"
+            android:text="Refresh"
+            android:textAllCaps="false"
             android:layout_gravity="center"
             android:gravity="center"
-            android:id="@+id/btnRefresh" />
+            android:id="@+id/btnRefresh"
+            android:padding="12dp"
+            android:textSize="16dp"
+            android:background="@drawable/orange_rounded_button"
+            android:textColor="@color/colorWhite"/>
 
     </LinearLayout>
 

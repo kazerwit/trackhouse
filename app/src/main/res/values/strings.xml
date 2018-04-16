@@ -1,10 +1,10 @@
 <resources>
     <!-- Global strings -->
-    <string name="app_name">Trackhouse</string>
+    <string name="app_name">Rereddit</string>
     <string name="welcome_message">Create an account</string>
     <string name="enter_email">Email</string>
     <string name="enter_password">Password</string>
-    <string name="trackhouse">trackhouse</string>
+    <string name="trackhouse">rereddit</string>
 
     <!-- Strings related to Forgot Password page -->
     <string name="password_instructions">Enter your email and we will send you password reset instructions.</string>
@@ -12,11 +12,11 @@
     <string name="go_back">GO BACK</string>
     <string name="prompt_email">Email</string>
 
-    <!-- Strings relatedFavoritesActivityites page-->
+    <!-- Strings related to Favorites Activity-->
     <string name="title_favorites">Favorites</string>
 
 
-    <!-- Strings relatedSignUpActivitygnUp page-->
+    <!-- Strings related to Sign Up Activity-->
     <string name="already_registered">Already registered? Click here to login</string>
     <string name="password_entry">"Enter password (six character min.)"</string>
     <string name="reenter_password">Re-enter password</string>
@@ -25,14 +25,14 @@
     <string name="member_login">Sign in</string>
     <string name="register">REGISTER</string>
 
-    <!-- Strings relatedProfileActivityfile page-->
+    <!-- Strings related to ProfileActivity-->
     <string name="prompt_username">Create or update your public username</string>
     <string name="button_save">SAVE</string>
     <string name="button_skip">I HAVE A USERNAME, TAKE ME HOME</string>
     <string name="title_profile">Profile</string>
 
 
-    <!-- Strings relatedSettingsActivityings page -->
+    <!-- Strings related to Settings Activity -->
     <string name="hint_email">Enter new email</string>
     <string name="hint_new_email">Enter new email</string>
     <string name="new_pass">Enter new password</string>
@@ -48,7 +48,7 @@
     <string name="title_settings">Settings</string>
 
 
-    <!-- Strings relatedLoginActivityogin page-->
+    <!-- Strings related to Login Activity page-->
     <string name="prompt_password">Password (optional)</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
@@ -67,7 +67,7 @@
     <string name="forgot_password">Forgot Password?</string>
 
 
-    <!-- Strings related Home Activity -->
+    <!-- Strings related to Comments Activity -->
     <string name="loading_comments">Loading Comments . . ."</string>
     <string name="last_updated">Last Updated"</string>
     <string name="author">Author"</string>
