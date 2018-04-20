@@ -17,6 +17,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.trackhouse.trackhouse.RedditAccount.RedditLoginActivity;
+
 /**
  * User can view their current account settings.
  */
@@ -96,7 +98,7 @@ public class SettingsActivity extends AppCompatActivity {
         profile.setOnClickListener(new View.OnClickListener(){
             public void onClick (View v){
             //takes user to ProfileActivity activity
-            Intent profileIntent = new Intent(SettingsActivity.this, ProfileActivity.class);
+            Intent profileIntent = new Intent(SettingsActivity.this, RedditLoginActivity.class);
 
             SettingsActivity.this.startActivity(profileIntent);}
         });

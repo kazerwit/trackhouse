@@ -16,7 +16,7 @@
                 android:id="@+id/toolbar_home"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/grey_border_toolbars">
+                android:background="@drawable/orange_toolbar">
 
             </android.support.v7.widget.Toolbar>
 
@@ -38,20 +38,6 @@
                 android:scaleType="centerCrop"
                 android:id="@+id/post_thumbnail" />
 
-            <Button
-                android:id="@+id/btn_reply"
-                android:layout_width="75dp"
-                android:layout_height="45dp"
-                android:textAlignment="center"
-                android:text="@string/comment_reply"
-                android:textSize="14sp"
-                android:textAllCaps="false"
-                android:layout_alignParentRight="true"
-                android:layout_alignBottom="@+id/post_thumbnail"
-                android:layout_marginEnd="8dp"
-                android:background="@drawable/orange_rounded_button"
-                android:padding="12dp"
-                android:textColor="@color/colorWhite"/>
             
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -125,6 +111,16 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/commentHeadingRelativeLayout">
         </ListView>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_action_comment"
+            android:layout_margin="16dp" />
         
 
     </RelativeLayout>

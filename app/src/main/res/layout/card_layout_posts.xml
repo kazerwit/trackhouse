@@ -6,7 +6,7 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.trackhouse.trackhouse.SearchActivity">
+    tools:context="org.trackhouse.trackhouse.HomeActivity">
 
 
     <android.support.v7.widget.CardView

@@ -1,12 +1,14 @@
 package org.trackhouse.trackhouse.Comments;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -16,6 +18,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -50,7 +53,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 /**
- * CommentsActivity activity to show post details. This activity is triggered when a user clicks on a post from the SearchActivity page.
+ * CommentsActivity activity to show post details. This activity is triggered when a user clicks on a post from the HomeActivity page.
  */
 
 public class CommentsActivity extends AppCompatActivity {
@@ -61,10 +64,14 @@ public class CommentsActivity extends AppCompatActivity {
     private static String postURL, postThumbnailURL, postTitle, postAuthor, postUpdated, postId;
     private int defaultImage;
     private String currentFeed;
+    private String postAuthorName;
+    private String authorName;
+    private String authorURL;
     private ListView mListView;
     private TextView loadingText;
     private ArrayList<Comment> mComments;
     private ProgressBar mProgressBar;
+    private FloatingActionButton mCommentsFAB;
 
     //strings for shared preferences to store user variables
     private String modhash;
@@ -97,6 +104,7 @@ public class CommentsActivity extends AppCompatActivity {
     private void setupToolbar(){
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_home);
         setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(0xFFFFFFFF);
 
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
@@ -118,6 +126,8 @@ public class CommentsActivity extends AppCompatActivity {
 
     private void init(){
 
+        Log.d(TAG, "init method started");
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(urls.BASE_URL)
                 .addConverterFactory(SimpleXmlConverterFactory.create())
@@ -130,12 +140,12 @@ public class CommentsActivity extends AppCompatActivity {
         call.enqueue(new Callback<Feed>() {
             @Override
             public void onResponse(Call<Feed> call, Response<Feed> response) {
-                //Log.d(TAG, "onResponse: feed: " + response.body().toString());
+                Log.d(TAG, "onResponse: feed: " + response.body().toString());
 
                 //shows server response code. If OK will show 200
-                //Log.d(TAG, "onResponse: Server Response: " + response.toString());
+                Log.d(TAG, "onResponse: Server Response: " + response.toString());
 
-                //Toast.makeText(CommentsActivity.this, "Server response " + response.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(CommentsActivity.this, "Server response " + response.toString(), Toast.LENGTH_SHORT).show();
 
                 mComments = new ArrayList<Comment>();
                 List<Entry> entries = response.body().getEntries();
@@ -192,7 +202,7 @@ public class CommentsActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Feed> call, Throwable t) {
-                Log.e(TAG, "onFailure: Unable to retrieve RSS: " + t.getMessage());
+                Log.e(TAG, "onFailure: Unable to retrieve RSS within call.enqueue: " + t.getMessage());
                 Toast.makeText(CommentsActivity.this, "An error occurred while retrieving feed " + t.getMessage(), Toast.LENGTH_LONG).show();
 
             }
@@ -200,6 +210,8 @@ public class CommentsActivity extends AppCompatActivity {
     }
 
     private void initPost() {
+
+        Log.d(TAG, "initPost method started.");
 
         Intent incomingIntent = getIntent();
         postURL = incomingIntent.getStringExtra("@string/post_url");
@@ -213,8 +225,8 @@ public class CommentsActivity extends AppCompatActivity {
         TextView author = (TextView) findViewById(R.id.postAuthor);
         TextView updated = (TextView) findViewById(R.id.postUpdated);
         ImageView thumbnail = (ImageView) findViewById(R.id.post_thumbnail);
-        Button btnReply = (Button) findViewById(R.id.btn_reply);
         ProgressBar progressBar = (ProgressBar) findViewById(R.id.postsLoading);
+        mCommentsFAB = (FloatingActionButton) findViewById(R.id.fab_comment);
 
         title.setText(postTitle);
         author.setText(postAuthor);
@@ -223,11 +235,16 @@ public class CommentsActivity extends AppCompatActivity {
 
         //this splits the URL to get the comments for a particular post. NSFW posts will throw an error
         //so we catch it here.
-        //TODO: test NSFW posts and see how I can accomodate them with the app.
         try {
+            Log.d(TAG, "postURL: " + postURL);
             String[] splitURL = postURL.split(urls.BASE_URL);
             currentFeed = splitURL[1];
             Log.d(TAG, "initPost: current feed: " + currentFeed);
+            String [] postAuthorName = postAuthor.split("u/");
+            authorName = postAuthorName[1];
+            Log.d(TAG, "author name: " + authorName);
+            authorURL = "https://www.reddit.com/user/" + authorName;
+            Log.d(TAG, "author URL: " + authorURL);
 
         } catch (ArrayIndexOutOfBoundsException e) {
             Log.e(TAG, "initPost: ArrayIndexOutOfBoundsException: " + e.getMessage());
@@ -235,7 +252,7 @@ public class CommentsActivity extends AppCompatActivity {
 
         //when "reply" button is clicked, it will call getUserComment, which opens a dialog/text entry
         //for comment.
-        btnReply.setOnClickListener(new View.OnClickListener() {
+        mCommentsFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: reply.");
@@ -253,6 +270,16 @@ public class CommentsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        author.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: Opening Reddit user page" + authorURL);
+                Intent intent = new Intent (CommentsActivity.this, WebViewActivity.class);
+                intent.putExtra("url", authorURL);
+                startActivity(intent);
+            }
+        });
     }
 
     //creates dialog box for user comment, which will show when a user clicks a comment or
@@ -266,13 +293,21 @@ public class CommentsActivity extends AppCompatActivity {
         //later if full screen desired.
 
         int width = (int)(getResources().getDisplayMetrics().widthPixels*.95);
-        int height = (int)(getResources().getDisplayMetrics().heightPixels*.6);
+        int height = (int)(getResources().getDisplayMetrics().heightPixels*.55);
 
         dialog.getWindow().setLayout(width, height);
         dialog.show();
 
-        Button btnPostComment = (Button) dialog.findViewById(R.id.btn_post_comment);
+        ImageButton btnPostComment = (ImageButton) dialog.findViewById(R.id.post_button);
+        ImageButton btnPostBack = (ImageButton) dialog.findViewById(R.id.post_back_button);
         final EditText comment = (EditText) dialog.findViewById(R.id.dialog_comment);
+
+        Toolbar mReplyToolbar = (Toolbar) dialog.findViewById(R.id.toolbar_reply);
+        //TODO: fix below code, currently includes action bar and text is black
+        //setSupportActionBar(mReplyToolbar);
+        //getSupportActionBar().setTitle("Reply");
+
+        dialog.setCanceledOnTouchOutside(true);
 
         btnPostComment.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -394,8 +429,6 @@ public class CommentsActivity extends AppCompatActivity {
             }
 
         });
-
-
     }
 
     /**
