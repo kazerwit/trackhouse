@@ -34,6 +34,7 @@ public class WebViewActivity extends AppCompatActivity{
 
         Intent intent = getIntent();
         String url = intent.getStringExtra("url");
+        Log.d(TAG, "Image URL: " + url);
         webview.getSettings().setJavaScriptEnabled(true);
         webview.loadUrl(url);
 

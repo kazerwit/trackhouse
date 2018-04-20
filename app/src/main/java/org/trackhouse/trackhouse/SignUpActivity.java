@@ -18,6 +18,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.database.DatabaseReference;
 
+import org.trackhouse.trackhouse.RedditAccount.RedditLoginActivity;
+
 /**
  * This is where a new user will sign up to use the app.
  */
@@ -102,7 +104,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                         if (task.isSuccessful()) {
                             // User is successfully registered. Displays toast message and starts ProfileActivity activity
                             Toast.makeText(SignUpActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
-                            Intent profileIntent = new Intent(SignUpActivity.this, ProfileActivity.class);
+                            Intent profileIntent = new Intent(SignUpActivity.this, RedditLoginActivity.class);
                             SignUpActivity.this.startActivity(profileIntent);
 
                         } else {

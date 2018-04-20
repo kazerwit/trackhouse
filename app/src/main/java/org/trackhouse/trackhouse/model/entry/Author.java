@@ -9,8 +9,6 @@ import java.io.Serializable;
  * Class to handle Author tags/objects within entries
  */
 
-//TODO: Author is not getting pulled, is showing "null" in output. Fix.
-
 @Root(name = "author", strict = false)
 public class Author implements Serializable{
 
