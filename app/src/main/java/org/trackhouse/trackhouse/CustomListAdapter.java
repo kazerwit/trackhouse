@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by User on 4/4/2017.
+ * Custom List Adapter
  */
 
 public class CustomListAdapter  extends ArrayAdapter<Post> {
@@ -50,7 +50,7 @@ public class CustomListAdapter  extends ArrayAdapter<Post> {
     }
 
     /**
-     * Default constructor for the PersonListAdapter
+     * Default constructor for the ListAdapter
      * @param context
      * @param resource
      * @param objects
@@ -65,6 +65,13 @@ public class CustomListAdapter  extends ArrayAdapter<Post> {
     }
 
 
+    /**
+     * Creates View
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -108,9 +115,6 @@ public class CustomListAdapter  extends ArrayAdapter<Post> {
             }
 
 
-            //Animation animation = AnimationUtils.loadAnimation(mContext,
-            //(position > lastPosition) ? R.anim.load_down_anim : R.anim.load_up_anim);
-            //result.startAnimation(animation);
 
             lastPosition = position;
 
@@ -167,7 +171,7 @@ public class CustomListAdapter  extends ArrayAdapter<Post> {
      * Required for setting up the Universal Image loader Library
      */
     private void setupImageLoader(){
-        // UNIVERSAL IMAGE LOADER SETUP
+        // set up Universal Image Loader
         DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
                 .cacheOnDisc(true).cacheInMemory(true)
                 .imageScaleType(ImageScaleType.EXACTLY)
@@ -180,6 +184,5 @@ public class CustomListAdapter  extends ArrayAdapter<Post> {
                 .discCacheSize(100 * 1024 * 1024).build();
 
         ImageLoader.getInstance().init(config);
-        // END - UNIVERSAL IMAGE LOADER SETUP
     }
 }

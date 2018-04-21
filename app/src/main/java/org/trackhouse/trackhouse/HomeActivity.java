@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -49,6 +50,8 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         Log.d(TAG, "onCreate: starting.");
 
@@ -107,13 +110,6 @@ public class HomeActivity extends AppCompatActivity {
                         startActivity(intent);
                         return true;
 
-                    //TODO: this case isn't working
-                        case R.id.navigation_app_login:
-                        //navigates to App Login Activity
-                        Intent intent2 = new Intent(HomeActivity.this, LoginActivity.class);
-                        startActivity(intent2);
-                        return true;
-
                     default:
                         //if we got here, the user's action was not recognized
                         //invoke the superclass to handle it
@@ -125,7 +121,9 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
-    //uses Retrofit to get feeds based on the subreddit text entry on HomeActivity page
+    /**
+     * Uses Retrofit to get feeds based on the subreddit text entry in search field
+     */
     private void init(){
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -151,7 +149,7 @@ public class HomeActivity extends AppCompatActivity {
 
                 //shows server response code. If OK will show 200
                 Log.d(TAG, "onResponse: Server Response: " + response.toString());
-                Toast.makeText(HomeActivity.this, "Server response " + response.toString(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(HomeActivity.this, "Server response " + response.toString(), Toast.LENGTH_SHORT).show();
 
                 List<Entry> entries = response.body().getEntries();
 
@@ -203,7 +201,7 @@ public class HomeActivity extends AppCompatActivity {
                     }
                 }
 
-                //test to print out post details in log for card view
+                /*test to print out post details in log for card view
                 for(int j = 0; j < posts.size(); j++){
 
                     Log.d(TAG, "onResponse: \n " +
@@ -214,6 +212,8 @@ public class HomeActivity extends AppCompatActivity {
                             "Updated: " + posts.get(j).getDate_updated() + "\n" +
                             "Id: " + posts.get(j).getId() + "\n");
                 }
+                 */
+
                 ListView listView = (ListView) findViewById(R.id.listView);
                 CustomListAdapter customListAdapter = new CustomListAdapter(HomeActivity.this, R.layout.card_layout_posts, posts);
                 listView.setAdapter(customListAdapter);
@@ -246,7 +246,9 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    //gets Earthporn subreddit as default feed
+    /**
+     * Gets default feed for activity. Currently gets Earthporn subreddit as default feed.
+     */
     private void initDefault(){
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -275,7 +277,7 @@ public class HomeActivity extends AppCompatActivity {
                 //shows server response code. If OK will show 200
                 Log.d(TAG, "onResponse: Server Response: " + response.toString());
 
-                Toast.makeText(HomeActivity.this, "Server response " + response.toString(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(HomeActivity.this, "Server response " + response.toString(), Toast.LENGTH_SHORT).show();
 
                 List<Entry> entries = response.body().getEntries();
 
@@ -327,7 +329,7 @@ public class HomeActivity extends AppCompatActivity {
                     }
                 }
 
-                //test to print out post details in log for card view
+                /*test to print out post details in log for card view
                 for(int j = 0; j < posts.size(); j++){
 
                     Log.d(TAG, "onResponse: \n " +
@@ -338,6 +340,8 @@ public class HomeActivity extends AppCompatActivity {
                             "Updated: " + posts.get(j).getDate_updated() + "\n" +
                             "Id: " + posts.get(j).getId() + "\n");
                 }
+                */
+
                 ListView listView = (ListView) findViewById(R.id.listView);
                 CustomListAdapter customListAdapter = new CustomListAdapter(HomeActivity.this, R.layout.card_layout_posts, posts);
                 listView.setAdapter(customListAdapter);
@@ -367,7 +371,6 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         });
-
     }
 
     @Override

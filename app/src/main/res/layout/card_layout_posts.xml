@@ -46,7 +46,8 @@
                     android:text="Card Title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="7dp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
                     android:textColor="@color/colorDarkGrey"/>
 
@@ -68,7 +69,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/cardAuthor"
                     android:textSize="12sp"
-                    android:layout_marginTop="3dp"/>
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="4dp"/>
 
 
 

@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Bonnie on 3/9/2018. Custom class to extract "content" tag information
- * from entries.
+ * Custom class to extract "content" tag information
+ * from Reddit entries.
  */
 
 public class ExtractXML {

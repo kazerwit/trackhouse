@@ -1,5 +1,6 @@
 package org.trackhouse.trackhouse.RedditAccount;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -10,12 +11,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.trackhouse.trackhouse.Comments.CommentsActivity;
 import org.trackhouse.trackhouse.FeedAPI;
 import org.trackhouse.trackhouse.R;
 import org.trackhouse.trackhouse.URLS;
+import org.trackhouse.trackhouse.WebViewActivity;
 import org.trackhouse.trackhouse.model.Feed;
 
 import java.util.HashMap;
@@ -28,7 +31,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 /**
- * Class for Reddit Login Activity.
+ * Reddit login activity allows user to sign into Reddit and then redirects back to the previous activity.
  */
 
 public class RedditLoginActivity extends AppCompatActivity{
@@ -38,6 +41,8 @@ public class RedditLoginActivity extends AppCompatActivity{
     private ProgressBar mProgressBar;
     private EditText mUsername;
     private EditText mPassword;
+    private TextView mRegister;
+    private String registerURL;
     private URLS urls = new URLS();
 
     @Override
@@ -45,11 +50,14 @@ public class RedditLoginActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reddit_login);
         Log.d(TAG, "onCreate: started.");
+
         Button btnLogin = (Button) findViewById(R.id.btn_login);
         mPassword = (EditText) findViewById(R.id.input_password);
         mUsername = (EditText) findViewById(R.id.input_username);
+        mRegister = (TextView) findViewById(R.id.link_signup);
         mProgressBar = (ProgressBar) findViewById(R.id.login_request_loading);
         mProgressBar.setVisibility(View.GONE);
+
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,6 +72,18 @@ public class RedditLoginActivity extends AppCompatActivity{
                     redditSignIn(username, password);
                 }
 
+            }
+        });
+
+        //loads web view if user needs to create a Reddit account
+        mRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                registerURL = "https://www.reddit.com/register";
+                Log.d(TAG, "onClick: Opening Reddit user page" + registerURL);
+                Intent intent = new Intent (RedditLoginActivity.this, WebViewActivity.class);
+                intent.putExtra("url", registerURL);
+                startActivity(intent);
             }
         });
     }
@@ -105,7 +125,7 @@ public class RedditLoginActivity extends AppCompatActivity{
                         mProgressBar.setVisibility(View.GONE);
                         mUsername.setText("");
                         mPassword.setText("");
-                        Toast.makeText(RedditLoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RedditLoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
 
                         //navigate back to previous activity when done
                         finish();
@@ -125,8 +145,6 @@ public class RedditLoginActivity extends AppCompatActivity{
 
             }
         });
-
-
     }
 
     /**

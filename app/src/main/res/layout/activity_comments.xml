@@ -62,7 +62,8 @@
                     android:text="@string/author"
                     android:gravity="center"
                     android:layout_below="@id/postTitle"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    android:textColor="#0000EE"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -73,7 +74,6 @@
                     android:gravity="center"
                     android:layout_below="@id/postAuthor"
                     android:textSize="12sp" />
-                />
 
             </RelativeLayout>
 
@@ -97,7 +97,7 @@
             android:id="@+id/commentsLoadingText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="10sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             android:layout_alignStart="@+id/commentsLoading"
             android:layout_alignTop="@+id/commentsLoading"

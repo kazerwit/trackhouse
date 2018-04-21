@@ -15,7 +15,7 @@ import retrofit2.http.Query;
 
 /**
  * Create FeedAPI Interface for use with Retrofit. The base URL is set here and
- * the non-static feed path is specified. See comment for static feed option.
+ * the non-static feed path input is "feed_name".
  */
 
 public interface FeedAPI {
@@ -45,6 +45,4 @@ public interface FeedAPI {
             @Query("parent") String parent,
             @Query("amp;text") String text
     );
-
-
 }
