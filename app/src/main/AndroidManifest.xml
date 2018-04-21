@@ -23,8 +23,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".WelcomeActivity"
-            android:theme="@style/noTitle">
+            android:name=".HomeActivity"
+            android:label="Front Page">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,24 +32,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".SignUpActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".PasswordResetActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".SettingsActivity"
-            android:label="@string/title_settings" />
-        <activity
-            android:name=".HomeActivity"
-            android:label="Front Page" />
-        <activity
             android:name=".Comments.CommentsActivity"
-            android:label="Comments" />
+            android:label="Comments"/>
         <activity
             android:name=".WebViewActivity"
             android:label="WebViewActivity" />

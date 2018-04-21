@@ -8,7 +8,8 @@
 
     <color name="colorPrimaryDark">#000000</color>
 
-    <color name="colorAccent">#FF5510</color>
+    <!-- other options #e65100, #FF5510 -->
+    <color name ="colorAccent">#ff6d00</color>
 
     <color name="primaryTextColor">#000000</color>
 

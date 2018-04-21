@@ -1,5 +1,6 @@
 package org.trackhouse.trackhouse.Comments;
 
+import android.app.ActionBar;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,7 +17,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -24,7 +24,6 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -33,7 +32,6 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
-
 import org.trackhouse.trackhouse.ExtractXML;
 import org.trackhouse.trackhouse.FeedAPI;
 import org.trackhouse.trackhouse.R;
@@ -53,7 +51,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 /**
- * CommentsActivity activity to show post details. This activity is triggered when a user clicks on a post from the HomeActivity page.
+ * Comments Activitiy shows post details and has comment functionality. This activity is triggered
+ * when a user clicks on a post from the Home Activity card view.
  */
 
 public class CommentsActivity extends AppCompatActivity {
@@ -61,22 +60,21 @@ public class CommentsActivity extends AppCompatActivity {
     URLS urls = new URLS();
 
     private static final String TAG = "CommentsActivity";
-    private static String postURL, postThumbnailURL, postTitle, postAuthor, postUpdated, postId;
-    private int defaultImage;
-    private String currentFeed;
-    private String postAuthorName;
-    private String authorName;
-    private String authorURL;
-    private ListView mListView;
-    private TextView loadingText;
-    private ArrayList<Comment> mComments;
-    private ProgressBar mProgressBar;
-    private FloatingActionButton mCommentsFAB;
+
+    //strings for post details
+    private static String postURL, postThumbnailURL, postTitle, postAuthor, postUpdated, postId, currentFeed, postAuthorName, authorURL, authorName;
 
     //strings for shared preferences to store user variables
     private String modhash;
     private String cookie;
     private String username;
+
+    private int defaultImage;
+    private ListView mListView;
+    private TextView loadingText;
+    private ArrayList<Comment> mComments;
+    private ProgressBar mProgressBar;
+    private FloatingActionButton mCommentsFAB;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -100,7 +98,9 @@ public class CommentsActivity extends AppCompatActivity {
 
     }
 
-    //set up toolbar menu with switch statement to handle navigation items
+    /**
+     * Sets up toolbar menu with switch statement to handle navigation items.
+     */
     private void setupToolbar(){
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_home);
         setSupportActionBar(toolbar);
@@ -124,6 +124,9 @@ public class CommentsActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Retrofit callback with xml parsing.
+     */
     private void init(){
 
         Log.d(TAG, "init method started");
@@ -145,7 +148,7 @@ public class CommentsActivity extends AppCompatActivity {
                 //shows server response code. If OK will show 200
                 Log.d(TAG, "onResponse: Server Response: " + response.toString());
 
-                Toast.makeText(CommentsActivity.this, "Server response " + response.toString(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(CommentsActivity.this, "Server response " + response.toString(), Toast.LENGTH_SHORT).show();
 
                 mComments = new ArrayList<Comment>();
                 List<Entry> entries = response.body().getEntries();
@@ -209,6 +212,9 @@ public class CommentsActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Retrieves incoming intent data and sets onClick listeners for thumbnail and author.
+     */
     private void initPost() {
 
         Log.d(TAG, "initPost method started.");
@@ -246,12 +252,13 @@ public class CommentsActivity extends AppCompatActivity {
             authorURL = "https://www.reddit.com/user/" + authorName;
             Log.d(TAG, "author URL: " + authorURL);
 
+            setupToolbar();
+
         } catch (ArrayIndexOutOfBoundsException e) {
             Log.e(TAG, "initPost: ArrayIndexOutOfBoundsException: " + e.getMessage());
         }
 
-        //when "reply" button is clicked, it will call getUserComment, which opens a dialog/text entry
-        //for comment.
+        //this will call getUserComment when floating action button is clicked. A dialog for entering a comment is then opened.
         mCommentsFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -261,6 +268,7 @@ public class CommentsActivity extends AppCompatActivity {
         });
 
 
+        //when a user clicks the post thumbnail, this will open the post in the WebView Activity
         thumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -271,6 +279,7 @@ public class CommentsActivity extends AppCompatActivity {
             }
         });
 
+        //when a user clicks the author name, this will open the user profile in the WebView activity
         author.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -282,16 +291,17 @@ public class CommentsActivity extends AppCompatActivity {
         });
     }
 
-    //creates dialog box for user comment, which will show when a user clicks a comment or
-    //clicks the "reply" button
+    /**
+     * //Creates dialog box for user comment, which will show when a user clicks on a post or
+     * if they click the floating action button.
+     * @param post_id
+     */
     private void getUserComment(String post_id){
         final Dialog dialog = new Dialog(CommentsActivity.this);
         dialog.setTitle("dialog");
         dialog.setContentView(R.layout.comment_input_dialog);
 
-        //this sets dialog box parameters so that dialog doesn't take up full screen. Change
-        //later if full screen desired.
-
+        //this sets dialog box parameters so that dialog doesn't take up full screen
         int width = (int)(getResources().getDisplayMetrics().widthPixels*.95);
         int height = (int)(getResources().getDisplayMetrics().heightPixels*.55);
 
@@ -303,12 +313,11 @@ public class CommentsActivity extends AppCompatActivity {
         final EditText comment = (EditText) dialog.findViewById(R.id.dialog_comment);
 
         Toolbar mReplyToolbar = (Toolbar) dialog.findViewById(R.id.toolbar_reply);
-        //TODO: fix below code, currently includes action bar and text is black
-        //setSupportActionBar(mReplyToolbar);
-        //getSupportActionBar().setTitle("Reply");
 
+        //closes dialog box when user touches outside of it
         dialog.setCanceledOnTouchOutside(true);
 
+        //posts comment via API when user clicks send icon in dialog box
         btnPostComment.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -341,7 +350,6 @@ public class CommentsActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<CheckComment> call, Response<CheckComment> response) {
                         try {
-                            //Log.d(TAG, "onResponse: feed: " + response.body().toString());
 
                             //shows server response code. If OK will show 200
                             Log.d(TAG, "onResponse: Server Response: " + response.toString());
@@ -351,7 +359,7 @@ public class CommentsActivity extends AppCompatActivity {
 
                             if(postSuccess.equals("true")){
                                 dialog.dismiss();
-                                Toast.makeText(CommentsActivity.this, "Post Successful", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(CommentsActivity.this, "Comment posted", Toast.LENGTH_SHORT).show();
                             }else{
                                 Toast.makeText(CommentsActivity.this, "An error occurred. Did you sign in? Server response: " + postSuccess, Toast.LENGTH_LONG).show();
                             }
@@ -392,6 +400,12 @@ public class CommentsActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Sets up image loader and creates default image for posts without a thumbnail.
+     * @param imageURL
+     * @param imageView
+     * @param progressBar
+     */
     private void displayImage(String imageURL, ImageView imageView, final ProgressBar progressBar){
 
         //create the imageloader object
@@ -452,6 +466,7 @@ public class CommentsActivity extends AppCompatActivity {
 
         defaultImage = CommentsActivity.this.getResources().getIdentifier("@drawable/reddit_alien",null,CommentsActivity.this.getPackageName());
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.navigation_menu, menu);

@@ -22,7 +22,7 @@
         android:id="@+id/webpage_loading_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="10sp"
+        android:textSize="12sp"
         android:textStyle="bold"
         android:layout_alignStart="@+id/webview_progress_bar"
         android:layout_alignTop="@+id/webview_progress_bar"
