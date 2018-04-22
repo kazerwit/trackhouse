@@ -22,7 +22,6 @@ public class Entry implements Serializable{
     @Element(name = "id")
     private String id;
 
-
     @Element(name = "title")
     private String title;
 

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="org.trackhouse.trackhouse.PopularActivity"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true">
+
+    <RelativeLayout
+        android:id="@+id/rel_layout_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_home"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/orange_toolbar">
+
+        </android.support.v7.widget.Toolbar>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/linLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="100"
+        android:layout_below="@+id/rel_layout_toolbar"
+        android:background="@drawable/black_border">
+
+        <EditText
+            android:id="@+id/feedName"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="65"
+            android:textSize="15sp"
+            android:hint="Type a subreddit"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="8dp"/>
+
+        <ImageButton
+            android:src="@drawable/ic_action_search"
+            android:id="@+id/search_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_weight="30"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:background="@color/colorWhite"/>
+
+    </LinearLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/listView"
+        android:layout_below="@id/linLayout">
+    </ListView>
+
+</RelativeLayout>

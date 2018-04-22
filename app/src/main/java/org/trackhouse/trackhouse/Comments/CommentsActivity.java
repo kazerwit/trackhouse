@@ -39,6 +39,7 @@ import org.trackhouse.trackhouse.RedditAccount.RedditLoginActivity;
 import org.trackhouse.trackhouse.URLS;
 import org.trackhouse.trackhouse.WebViewActivity;
 import org.trackhouse.trackhouse.model.Feed;
+import org.trackhouse.trackhouse.model.PopularFeed;
 import org.trackhouse.trackhouse.model.entry.Entry;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -138,11 +139,11 @@ public class CommentsActivity extends AppCompatActivity {
 
         FeedAPI feedAPI = retrofit.create(FeedAPI.class);
 
-        Call<Feed> call = feedAPI.getFeed(currentFeed);
+        Call<PopularFeed> call = feedAPI.getPopularFeed(currentFeed);
 
-        call.enqueue(new Callback<Feed>() {
+        call.enqueue(new Callback<PopularFeed>() {
             @Override
-            public void onResponse(Call<Feed> call, Response<Feed> response) {
+            public void onResponse(Call<PopularFeed> call, Response<PopularFeed> response) {
                 Log.d(TAG, "onResponse: feed: " + response.body().toString());
 
                 //shows server response code. If OK will show 200
@@ -204,7 +205,7 @@ public class CommentsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Feed> call, Throwable t) {
+            public void onFailure(Call<PopularFeed> call, Throwable t) {
                 Log.e(TAG, "onFailure: Unable to retrieve RSS within call.enqueue: " + t.getMessage());
                 Toast.makeText(CommentsActivity.this, "An error occurred while retrieving feed " + t.getMessage(), Toast.LENGTH_LONG).show();
 
@@ -226,6 +227,8 @@ public class CommentsActivity extends AppCompatActivity {
         postAuthor = incomingIntent.getStringExtra("@string/post_author");
         postUpdated = incomingIntent.getStringExtra("@string/post_updated");
         postId = incomingIntent.getStringExtra("@string/post_id");
+
+        Log.d(TAG, "post id: " + postId);
 
         TextView title = (TextView) findViewById(R.id.postTitle);
         TextView author = (TextView) findViewById(R.id.postAuthor);
