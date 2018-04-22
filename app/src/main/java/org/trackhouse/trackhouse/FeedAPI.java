@@ -3,6 +3,7 @@ package org.trackhouse.trackhouse;
 import org.trackhouse.trackhouse.Comments.CheckComment;
 import org.trackhouse.trackhouse.RedditAccount.CheckLogin;
 import org.trackhouse.trackhouse.model.Feed;
+import org.trackhouse.trackhouse.model.PopularFeed;
 
 import java.util.Map;
 
@@ -25,6 +26,10 @@ public interface FeedAPI {
     //non-static feed name
     @GET("/r/{feed_name}/.rss")
     Call<Feed> getFeed(@Path("feed_name") String feed_name);
+
+    //to test PopularFeed class
+    @GET("/r/{feed_name}/.rss")
+    Call<PopularFeed> getPopularFeed(@Path("feed_name") String feed_name);
 
     @POST("{user}")
     Call<CheckLogin> redditSignIn(

@@ -6,9 +6,4 @@
         android:id="@+id/navigation_reddit_login"
         />
 
-    <item
-        android:title="App Login Test"
-        android:id="@+id/navigation_app_login"
-        />
-
 </menu>
