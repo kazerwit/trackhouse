@@ -25,7 +25,7 @@
                 android:background="@color/colorAccent"/>
 
             <ImageButton
-                android:src="@drawable/ic_action_post"
+                android:src="@drawable/ic_action_send"
                 android:id="@+id/post_button"
                 android:layout_width="56dp"
                 android:layout_height="56dp"

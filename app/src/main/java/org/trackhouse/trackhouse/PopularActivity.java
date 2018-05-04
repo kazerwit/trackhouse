@@ -2,7 +2,10 @@ package org.trackhouse.trackhouse;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.Image;
+import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -42,10 +45,16 @@ public class PopularActivity extends AppCompatActivity {
 
     private static final String TAG = "PopularActivity";
 
+    //strings for shared preferences to store user variables
+    private String modhash;
+    private String cookie;
+    private String username;
+
     private Button btnRefreshFeed;
     private EditText mFeedName;
     private String currentFeed;
-    private String defaultFeedName;
+    public FloatingActionButton mPostFAB;
+    private String newPostURL = "https://www.reddit.com/submit?selftext=true";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +73,8 @@ public class PopularActivity extends AppCompatActivity {
         mFeedName = (EditText) findViewById(R.id.feedName);
 
         setupToolbar();
+
+        getSessionParams();
 
         initDefault();
 
@@ -111,6 +122,15 @@ public class PopularActivity extends AppCompatActivity {
                         startActivity(intent);
                         return true;
 
+                    case R.id.navigation_reddit_logout:
+                        //logs user out of Reddit
+                        modhash = "";
+                        username = "";
+                        cookie = "";
+                        Toast.makeText(PopularActivity.this, "You have been logged out", Toast.LENGTH_LONG).show();
+                        return true;
+
+
                     default:
                         //if we got here, the user's action was not recognized
                         //invoke the superclass to handle it
@@ -119,6 +139,23 @@ public class PopularActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    /**
+     * Retrieves shared preferences from login activity and saves the strings to local variables
+     */
+    private void getSessionParams(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(PopularActivity.this);
+
+        username = preferences.getString("@string/session_username", "");
+        modhash = preferences.getString("@string/session_modhash", "");
+        cookie = preferences.getString("@string/session_cookie", "");
+
+        Log.d(TAG, "getSessionParams: Storing session variables:  \n" +
+                "username: " + username + "\n" +
+                "modhash: " + modhash + "\n" +
+                "cookie: " + cookie + "\n"
+        );
     }
 
     /**
@@ -134,6 +171,19 @@ public class PopularActivity extends AppCompatActivity {
         FeedAPI feedAPI = retrofit.create(FeedAPI.class);
 
         Call<PopularFeed> call = feedAPI.getPopularFeed(currentFeed);
+
+        FloatingActionButton mPostFAB = (FloatingActionButton) findViewById(R.id.fab_post);
+
+        //if user selects the floating action button, will open a new window to submit a new post
+        mPostFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: Opening URL in web view");
+                Intent intent = new Intent (PopularActivity.this, WebViewActivity.class);
+                intent.putExtra("url", newPostURL);
+                startActivity(intent);
+            }
+        });
 
         call.enqueue(new Callback<PopularFeed>() {
             /**
@@ -264,6 +314,19 @@ public class PopularActivity extends AppCompatActivity {
         FeedAPI feedAPI = retrofit.create(FeedAPI.class);
 
         Call<PopularFeed> call = feedAPI.getPopularFeed(currentFeed);
+
+        FloatingActionButton mPostFAB = (FloatingActionButton) findViewById(R.id.fab_post);
+
+        //if user selects the floating action button, will open a new window to submit a new post
+        mPostFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: Opening URL in web view");
+                Intent intent = new Intent (PopularActivity.this, WebViewActivity.class);
+                intent.putExtra("url", newPostURL);
+                startActivity(intent);
+            }
+        });
 
         call.enqueue(new Callback<PopularFeed>() {
             /**

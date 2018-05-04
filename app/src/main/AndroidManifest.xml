@@ -33,7 +33,7 @@
         </activity>
         <activity
             android:name=".Comments.CommentsActivity"
-            android:label="comments"/>
+            android:label="Comments"/>
         <activity
             android:name=".WebViewActivity"
             android:label="WebViewActivity" />

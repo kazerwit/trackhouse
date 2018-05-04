@@ -5,5 +5,9 @@
         android:title="Login to Reddit"
         android:id="@+id/navigation_reddit_login"
         />
+    <item
+        android:title="Logout"
+        android:id="@+id/navigation_reddit_logout"
+        />
 
 </menu>

@@ -312,13 +312,21 @@ public class CommentsActivity extends AppCompatActivity {
         dialog.show();
 
         ImageButton btnPostComment = (ImageButton) dialog.findViewById(R.id.post_button);
-        ImageButton btnPostBack = (ImageButton) dialog.findViewById(R.id.post_back_button);
+        final ImageButton btnPostBack = (ImageButton) dialog.findViewById(R.id.post_back_button);
         final EditText comment = (EditText) dialog.findViewById(R.id.dialog_comment);
 
         Toolbar mReplyToolbar = (Toolbar) dialog.findViewById(R.id.toolbar_reply);
 
         //closes dialog box when user touches outside of it
         dialog.setCanceledOnTouchOutside(true);
+
+        //closes dialog box when user clicks back button
+        btnPostBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
 
         //posts comment via API when user clicks send icon in dialog box
         btnPostComment.setOnClickListener(new View.OnClickListener(){
@@ -380,7 +388,6 @@ public class CommentsActivity extends AppCompatActivity {
 
                     }
                 });
-
             }
         });
     }
